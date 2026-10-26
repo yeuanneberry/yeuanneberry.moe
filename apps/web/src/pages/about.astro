@@ -6,9 +6,18 @@ import { profile } from "../data/profile";
 import "../styles/portfolio.css";
 ---
 
-<Layout title="About · Yeuanne Berry" description="The person behind the websites, applications, and Berry configuration.">
+<Layout>
   <main id="main-content" class="shell about-page" tabindex="-1">
-    <div class="about-intro"><div><p class="eyebrow">A little about me</p><h1>Hi, I'm Yeuanne Berry.</h1><p class="portfolio-lede">I work on websites, applications,<br />and the systems around them.</p></div><Image src={portrait} alt="Yeuanne Berry" width={200} height={200} format="webp" class="about-portrait" /></div>
-    <div class="about-body"><section><h2>Building through Yappers</h2><p>The featured projects here were delivered through Yappers. My work ranges from frontend implementation to complete applications. Each case study describes my contribution and credits branding and visual direction separately.</p><p>SoftlySang is a personal favorite: a website I created in full as a birthday gift for my mother.</p><a class="subtle-link" href="/work/">Read the project stories →</a></section><section><h2>Making room for Berry</h2><p>Berry is the configuration and set of tools I use around my Linux desktop. The guides explain the reusable pieces, the choices you can customize, and how to keep your own preferences separate.</p><a class="subtle-link" href="/docs/">Open the Berry guides →</a></section><section><h2>Find me elsewhere</h2><div class="about-links"><a href={profile.github}>GitHub ↗</a><a href={profile.studio}>Yappers ↗</a></div></section></div>
+    <div class="about-intro"><div><h1>About me</h1><p class="portfolio-lede">I'm Yeuanne Berry.</p><p>I'm a Computer Science dropout, now working full-time as a Head IT Administrator.</p></div><Image src={portrait} alt="Yeuanne Berry" widths={[200, 400, 600]} sizes="200px" width={200} height={200} format="webp" quality={90} class="about-portrait" /></div>
+    <div class="about-body">
+      <pre class="about-ascii" aria-hidden="true">{`  .---------------------.
+  | $ whoami            |
+  | yeuanneberry        |
+  '---------------------'
+       |_________|`}</pre>
+      <section><h2>Work</h2><p>I build websites and applications through Yappers. The project pages list my contribution to each one.</p><p>I also created SoftlySang as a birthday gift for my mother, including its design and implementation.</p><a class="subtle-link" href="/work/">View projects →</a></section>
+      <section><h2>Berry</h2><p>I use Arch Linux. Berry contains the desktop configuration I share, with setup and customization guides.</p><a class="subtle-link" href="/docs/">Read the docs →</a></section>
+      <section><h2>Links</h2><div class="about-links"><a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub ↗<span class="sr-only"> (opens in a new tab)</span></a><a href={profile.studio} target="_blank" rel="noopener noreferrer">Yappers ↗<span class="sr-only"> (opens in a new tab)</span></a></div></section>
+    </div>
   </main>
 </Layout>

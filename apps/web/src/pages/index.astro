@@ -12,24 +12,22 @@ import "../styles/portfolio.css";
   <main id="main-content" class="home shell" tabindex="-1">
     <section class="portfolio-hero" aria-labelledby="page-title">
       <div>
-        <p class="eyebrow">Web development / Linux systems</p>
         <h1 id="page-title">Yeuanne Berry<span class="olive" aria-hidden="true">.</span></h1>
-        <p class="portfolio-lede">I build useful things for the web.</p>
-        <p class="hero-description">Websites and applications delivered through Yappers. A personal Linux setup, shaped over time and shared through Berry.</p>
-        <div class="hero-actions"><a class="button" href="/work/">Explore my work <span aria-hidden="true">→</span></a><a class="subtle-link" href="/docs/">Browse Berry docs →</a></div>
+        <p class="portfolio-lede">Head IT Administrator and web developer.</p>
+        <div class="hero-actions"><a class="button" href="/work/">View projects <span aria-hidden="true">→</span></a><a class="subtle-link" href="/docs/">Berry docs →</a></div>
       </div>
-      <div class="portrait-wrap"><Image src={portrait} alt="Yeuanne Berry" widths={[256, 512]} sizes="(max-width: 700px) 168px, 256px" width={256} height={256} format="webp" loading="eager" fetchpriority="high" /></div>
+      <div class="portrait-wrap"><Image src={portrait} alt="Yeuanne Berry" widths={[252, 504, 756]} sizes="(max-width: 700px) 168px, 252px" width={252} height={252} format="webp" quality={90} loading="eager" fetchpriority="high" /></div>
     </section>
 
     <section class="portfolio-section" aria-labelledby="selected-title">
-      <div class="section-heading"><div><p class="eyebrow">Selected projects</p><h2 id="selected-title">A few things I've built</h2></div><a class="subtle-link" href="/work/">All five projects →</a></div>
+      <div class="section-heading"><h2 id="selected-title">Projects</h2><a class="subtle-link" href="/work/">All projects →</a></div>
       <div class="work-grid">{featuredProjects.map((project) => <WorkCard project={project} headingLevel="h3" />)}</div>
     </section>
 
     <section class="portfolio-section two-paths" aria-labelledby="beyond-title">
-      <div><p class="eyebrow">Beyond the websites</p><h2 id="beyond-title">Code, configuration,<br />and the notes behind them.</h2><p>Public projects to explore and a practical guide to making the Berry setup your own.</p></div>
-      <div class="path-links"><a href="/code/"><span>01 / Code</span><h3>Explore the repositories</h3><p>Original projects and clearly credited forks.</p><b aria-hidden="true">↗</b></a><a href="/docs/"><span>02 / Berry</span><h3>Read the configuration guides</h3><p>Get started, customize, update, and recover.</p><b aria-hidden="true">→</b></a></div>
+      <h2 id="beyond-title">Code and configuration</h2>
+      <div class="path-links"><a href="/code/"><h3>Public repositories</h3><p>Source code and forks.</p><b aria-hidden="true">→</b></a><a href="/docs/"><h3>Berry docs</h3><p>Linux configuration and setup guides.</p><b aria-hidden="true">→</b></a></div>
     </section>
-    <section class="closing-note"><p>Have a look around, or find me on GitHub.</p><a class="subtle-link" href={profile.github}>github.com/yeuanneberry ↗</a></section>
+    <div class="closing-note"><a class="subtle-link" href={profile.github} target="_blank" rel="noopener noreferrer">github.com/yeuanneberry ↗<span class="sr-only"> (opens in a new tab)</span></a></div>
   </main>
 </Layout>

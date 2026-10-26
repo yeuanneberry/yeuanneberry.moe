@@ -30,10 +30,6 @@ test('personal home has the approved portrait, usable navigation and picture fav
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Yeuanne Berry/);
   await expect(page.getByRole('img', { name: 'Yeuanne Berry', exact: true })).toBeVisible();
-  const primary = page.getByRole('navigation', { name: 'Primary', exact: true });
-  for (const [name, path] of [['Home', '/'], ['Work', '/work/'], ['Code', '/code/'], ['Berry docs', '/docs/'], ['About', '/about/']]) {
-    await expect(primary.getByRole('link', { name, exact: true })).toHaveAttribute('href', path);
-  }
   const favicon = page.locator('link[rel="icon"][type="image/png"]');
   await expect(favicon).toHaveCount(1);
   const faviconURL = new URL((await favicon.getAttribute('href'))!, page.url()).href;
@@ -53,6 +49,11 @@ test('personal home has the approved portrait, usable navigation and picture fav
   await imagesLoaded(page);
   await noOverflow(page);
   await page.screenshot({ path: info.outputPath('portfolio-home.png'), fullPage: true });
+  if (info.project.name === 'phone') await page.getByRole('button', { name: 'Menu', exact: true }).click();
+  const primary = page.getByRole('navigation', { name: 'Primary', exact: true });
+  for (const [name, path] of [['Home', '/'], ['Work', '/work/'], ['Code', '/code/'], ['Berry docs', '/docs/'], ['About', '/about/']]) {
+    await expect(primary.getByRole('link', { name, exact: true })).toHaveAttribute('href', path);
+  }
   await primary.getByRole('link', { name: 'Work', exact: true }).click();
   await expect(page).toHaveURL(/\/work\/$/);
 });
@@ -99,13 +100,13 @@ test('all five work cards lead to readable case studies with accurate contributi
 test('public code collection separates forks from original repositories', async ({ page, request }) => {
   await page.goto('/code/');
   const cards = page.locator('.repository-card');
-  expect(await cards.count()).toBeGreaterThanOrEqual(4);
-  const original = cards.filter({ has: page.locator('a[href$="/Immersion-and-Programming-Colab-PT"]') });
+  await expect(cards).toHaveCount(2);
+  const original = cards.filter({ has: page.locator('a[href$="/berry-desktop"]') });
   await expect(original).toHaveCount(1);
   await expect(original.getByRole('link').first()).toHaveAttribute('href', /^https:\/\/github\.com\/yeuanneberry\//);
   await expect(cards.filter({ hasText: /\bfork\b/i }).first()).toBeVisible();
   for (const card of await cards.all()) {
-    await expect(card.getByRole('link').first()).toHaveAttribute('href', /^https:\/\/github\.com\/yeuanneberry\/[A-Za-z0-9_.-]+\/?$/);
+    await expect(card.getByRole('link').first()).toHaveAttribute('href', /^https:\/\/github\.com\/yeuanneberry\/(berry-desktop|antigravity-usage)$/);
   }
   const localLinks = await page.locator('main a[href^="/"]').evaluateAll(elements => [...new Set(elements.map(element => element.getAttribute('href')!))]);
   for (const href of localLinks) expect((await request.get(href)).status(), href).toBe(200);
@@ -116,6 +117,8 @@ test('work browsing and case navigation remain usable without JavaScript', async
   const page = await browser.newPage({ baseURL, viewport: info.project.use.viewport, javaScriptEnabled: false });
   try {
     await page.goto('/work/');
+    await expect(page.locator('#open-navigation')).toBeHidden();
+    await expect(page.getByRole('navigation', { name: 'Primary' })).toBeVisible();
     await expect(page.locator('.work-card')).toHaveCount(5);
     await page.getByRole('heading', { name: 'SoftlySang', exact: true }).getByRole('link').click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('SoftlySang.');
@@ -130,20 +133,33 @@ test('work browsing and case navigation remain usable without JavaScript', async
   } finally { await page.close(); }
 });
 
-test('portfolio uses approved public links and has no missing assets or browser errors', async ({ page }) => {
+test('all pages have plain metadata, safe new-tab links and no browser errors', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('response', response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
-  for (const path of ['/', '/work/', '/code/', '/about/', ...projects.map(project => `/work/${project.slug}/`)]) {
+  const chapters = ['overview', 'start', 'customize', 'apply-recover', 'update', 'reference'];
+  for (const path of ['/', '/work/', '/code/', '/about/', '/docs/', ...projects.map(project => `/work/${project.slug}/`), ...chapters.map(id => `/docs/${id}/`)]) {
     const response = await page.goto(path);
     expect(response?.status(), path).toBe(200);
+    await expect(page).toHaveTitle('Yeuanne Berry');
+    for (const selector of ['meta[name="description"]', 'meta[property="og:title"]', 'meta[property="og:description"]']) {
+      await expect(page.locator(selector)).toHaveAttribute('content', 'Yeuanne Berry');
+    }
     const links = await page.locator('a').evaluateAll(elements => elements.map(element => element.href));
     const allowedHosts = new Set([
       new URL(page.url()).host, 'github.com',
       ...projects.map(project => new URL(project.url).host),
     ]);
     for (const link of links) expect(allowedHosts.has(new URL(link).host), link).toBe(true);
+    for (const link of await page.locator('a[href^="http"]').all()) {
+      await expect(link).toHaveAttribute('target', '_blank');
+      expect((await link.getAttribute('rel'))?.split(/\s+/)).toEqual(expect.arrayContaining(['noopener', 'noreferrer']));
+      await expect(link.locator('.sr-only')).toHaveText(' (opens in a new tab)');
+    }
+    for (const link of await page.locator('a[href^="/"], a[href^="#"]').all()) {
+      expect(await link.getAttribute('target')).toBeNull();
+    }
     await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
     await imagesLoaded(page);
     await noOverflow(page);

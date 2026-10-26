@@ -4,6 +4,9 @@ This repository owns Yeuanne Berry's portfolio and its Berry documentation
 reader. Read README.md and NOTICE.md before editing.
 
 - Use Astro + React with static output. Hydrate only documentation search.
+  Mobile navigation uses native dialog and vanilla JavaScript with a no-JS fallback.
+- Keep metadata exactly "Yeuanne Berry" and copy direct. External links open a
+  new tab with noopener/noreferrer and an accessible hint; internal routes stay put.
 - pnpm is the package manager. Keep exact direct versions and pnpm-lock.yaml.
 - Reusable configuration and guide content belong to berry-desktop.
   Reader articles are generated from the reviewed allowlist in

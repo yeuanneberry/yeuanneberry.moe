@@ -169,21 +169,24 @@ importers:
 
   .:
     devDependencies:
-      '@yeuanneberry/config':
-        specifier: workspace:*
-        version: link:packages/config
       '@playwright/test':
         specifier: 1.64.1
         version: 1.64.1
       '@types/node':
         specifier: 26.5.0
         version: 26.5.0
+      '@yeuanneberry/config':
+        specifier: workspace:*
+        version: link:packages/config
       typescript:
         specifier: 6.0.3
         version: 6.0.3
 
   apps/web:
     dependencies:
+      '@astrojs/markdown-satteri':
+        specifier: 0.4.5
+        version: 0.4.5
       '@astrojs/react':
         specifier: 7.0.0
         version: 7.0.0(@types/node@26.5.0)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(oxc-transform-react@0.145.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(yaml@2.9.1)
@@ -203,15 +206,15 @@ importers:
       '@astrojs/check':
         specifier: 0.9.12
         version: 0.9.12(@emnapi/runtime@1.11.3)(prettier@3.9.10)(typescript@6.0.3)
-      '@yeuanneberry/config':
-        specifier: workspace:*
-        version: link:../../packages/config
       '@types/react':
         specifier: 19.3.0
         version: 19.3.0
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
+      '@yeuanneberry/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       typescript:
         specifier: 6.0.3
         version: 6.0.3

@@ -17,31 +17,10 @@ export const repositories: readonly PublicRepository[] = [
     license: "MIT",
   },
   {
-    name: "Career Compass",
-    url: "https://github.com/yeuanneberry/Immersion-and-Programming-Colab-PT",
-    description: "A school collaboration exploring career guidance through a web application.",
-    fork: false,
-    license: null,
-  },
-  {
-    name: "Typora Vercel dark theme",
-    url: "https://github.com/yeuanneberry/typora-vercel-dark-theme",
-    description: "A fork of a dark theme for the Typora Markdown editor.",
-    fork: true,
-    license: "MIT",
-  },
-  {
     name: "Antigravity usage",
     url: "https://github.com/yeuanneberry/antigravity-usage",
     description: "A fork of a command-line tool for model quota and usage information.",
     fork: true,
     license: "MIT",
-  },
-  {
-    name: "Typora themes website",
-    url: "https://github.com/yeuanneberry/theme.typora.io",
-    description: "A fork of the website for discovering Typora themes.",
-    fork: true,
-    license: null,
   },
 ];

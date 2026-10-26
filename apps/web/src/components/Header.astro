@@ -1,7 +1,6 @@
 ---
-import { getImage } from "astro:assets";
+import { Image } from "astro:assets";
 import portrait from "../assets/profile.png";
-const avatar = await getImage({ src: portrait, width: 32, height: 32, format: "webp" });
 const path = Astro.url.pathname;
 const links = [
   ["Home", "/"], ["Work", "/work/"], ["Code", "/code/"],
@@ -9,14 +8,79 @@ const links = [
 ];
 ---
 
-<header class="site-header">
+<header class="site-header" data-site-navigation>
   <div class="header-inner shell">
     <a class="wordmark" href="/" aria-label="Yeuanne Berry home">
-      <img src={avatar.src} width="32" height="32" alt="" class="header-avatar" />
+      <Image src={portrait} width={32} height={32} widths={[32, 64, 96]} sizes="32px" format="webp" quality={90} alt="" class="header-avatar" />
       <span>yeuanne<span class="olive">berry</span></span>
     </a>
-    <nav aria-label="Primary">
+    <nav class="desktop-nav" aria-label="Primary">
       {links.map(([label, href]) => <a href={href} aria-current={path === href ? "page" : href !== "/" && path.startsWith(href!) ? "true" : undefined}>{label}</a>)}
     </nav>
+    <button class="mobile-menu-toggle" id="open-navigation" type="button" aria-controls="mobile-navigation" aria-expanded="false" aria-haspopup="dialog" hidden>
+      <span>Menu</span>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h14M3 14h14" /></svg>
+    </button>
   </div>
+  <dialog class="mobile-menu" id="mobile-navigation" aria-labelledby="mobile-menu-title">
+    <div class="mobile-menu-inner shell">
+      <div class="mobile-menu-top">
+        <p id="mobile-menu-title">Navigation</p>
+        <button id="close-navigation" class="mobile-menu-close" type="button" autofocus>
+          <span>Close</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m4 4 12 12M16 4 4 16" /></svg>
+        </button>
+      </div>
+      <nav class="mobile-nav" aria-label="Primary">
+        {links.map(([label, href]) => <a href={href} aria-current={path === href ? "page" : href !== "/" && path.startsWith(href!) ? "true" : undefined}>{label}</a>)}
+      </nav>
+    </div>
+  </dialog>
 </header>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-site-navigation]");
+  const toggle = document.getElementById("open-navigation");
+  const panel = document.getElementById("mobile-navigation");
+  const close = document.getElementById("close-navigation");
+
+  if (header && toggle instanceof HTMLButtonElement && panel instanceof HTMLDialogElement && close instanceof HTMLButtonElement) {
+    const mobile = window.matchMedia("(max-width: 850px)");
+    toggle.addEventListener("click", () => {
+      if (!mobile.matches || panel.open) return;
+      panel.showModal();
+      toggle.setAttribute("aria-expanded", "true");
+      document.documentElement.classList.add("navigation-open");
+    });
+    close.addEventListener("click", () => panel.close());
+    panel.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab" || event.ctrlKey || event.altKey || event.metaKey) return;
+      const items = panel.querySelectorAll<HTMLAnchorElement | HTMLButtonElement>("a[href], button:not([disabled])");
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    });
+    panel.addEventListener("close", () => {
+      toggle.setAttribute("aria-expanded", "false");
+      document.documentElement.classList.remove("navigation-open");
+      if (mobile.matches) toggle.focus();
+    });
+    panel.addEventListener("click", (event) => {
+      if (event.target instanceof Element && event.target.closest("a[href]")) panel.close();
+    });
+    mobile.addEventListener("change", () => {
+      if (!mobile.matches && panel.open) {
+        panel.close();
+        header.querySelector<HTMLAnchorElement>(".desktop-nav a[aria-current]")?.focus();
+      }
+    });
+    toggle.hidden = false;
+    header.classList.add("navigation-ready");
+  }
+</script>

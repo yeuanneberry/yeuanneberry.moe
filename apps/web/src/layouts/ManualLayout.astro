@@ -8,11 +8,11 @@ interface Props {
   current: string;
   headings?: { depth: number; slug: string; text: string }[];
 }
-const { title, description, current, headings = [] } = Astro.props;
+const { current, headings = [] } = Astro.props;
 const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
 ---
 
-<Layout title={`${title} · Berry field notes`} description={description}>
+<Layout>
   <div class:list={["manual-layout", "shell", { "with-toc": toc.length > 0 }]}>
     <aside class="desktop-chapters"><ChapterNav current={current} /></aside>
     <main id="main-content" tabindex="-1" class="manual-main">

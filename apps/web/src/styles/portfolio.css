@@ -1,7 +1,6 @@
 .portfolio-hero { display: grid; grid-template-columns: minmax(0, 1fr) 19rem; gap: 5rem; align-items: center; padding-block: 1rem 2rem; }
 .portfolio-hero h1 { font-size: clamp(2.8rem, 5vw, 5rem); letter-spacing: -.065em; margin-bottom: 1.3rem; }
 .portfolio-lede { color: var(--paper); font-size: clamp(1.1rem, 2vw, 1.55rem); line-height: 1.65; max-width: 45rem; margin: 0 0 1.25rem; }
-.portfolio-hero .hero-description { max-width: 44rem; }
 .portrait-wrap { justify-self: center; border: 1px solid var(--border); padding: .75rem; background: var(--surface); transform: rotate(3deg); }
 .portrait-wrap img { width: 18rem; aspect-ratio: 1; border-radius: 2px; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
@@ -9,12 +8,10 @@
 .portfolio-section .work-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
 .portfolio-section .work-card h2 { font-size: 1.3rem; }
 .two-paths { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6rem; }
-.two-paths > div > p:last-child { color: var(--muted); max-width: 35rem; font-size: .9rem; }
 .two-paths h2 { font-size: clamp(1.5rem, 2.5vw, 2.1rem); line-height: 1.6; }
 .path-links { display: grid; gap: 1rem; }
 .path-links > a { display: block; position: relative; border: 1px solid var(--border); padding: 1.4rem 3rem 1.4rem 1.5rem; background: var(--surface); text-decoration: none; }
 .path-links > a:hover { border-color: var(--olive); }
-.path-links span { color: var(--ochre); font-size: .7rem; }
 .path-links h3 { font-size: 1rem; margin-block: .75rem .4rem; }
 .path-links p { color: var(--muted); font-size: .8rem; margin: 0; }
 .path-links b { position: absolute; right: 1.25rem; top: 1.4rem; font-weight: 400; color: var(--olive); }
@@ -23,8 +20,11 @@
 .about-page, .code-page { padding-block: 4rem 5rem; }
 .about-intro { display: flex; justify-content: space-between; align-items: center; gap: 3rem; padding-bottom: 3.5rem; border-bottom: 1px solid var(--border); }
 .about-intro h1 { font-size: clamp(2.2rem, 4vw, 3.8rem); }
-.about-portrait { flex-shrink: 0; border-radius: 4px; border: 1px solid var(--border); }
+.about-portrait { width: 200px; height: 200px; flex-shrink: 0; border-radius: 4px; border: 1px solid var(--border); }
+.about-intro > div { max-width: 43rem; }
+.about-intro > div > p:not(.portfolio-lede) { color: var(--muted); line-height: 1.9; }
 .about-body { max-width: 50rem; margin-left: auto; padding-top: 3.5rem; }
+.about-ascii { width: fit-content; max-width: 100%; margin: 0 0 3rem; padding: 0; background: transparent; border: 0; color: var(--olive); font-size: clamp(.75rem, 2.5vw, .95rem); line-height: 1.5; white-space: pre; }
 .about-body section { margin-bottom: 3.5rem; }
 .about-body h2 { font-size: 1.5rem; margin-bottom: 1.5rem; }
 .about-body p { color: var(--muted); line-height: 1.95; }
@@ -53,6 +53,5 @@
   .two-paths { gap: 2rem; }
   .about-page, .code-page { padding-block: 2.5rem 3rem; }
   .about-intro { flex-direction: column-reverse; align-items: start; gap: 2rem; padding-bottom: 2rem; }
-  .about-portrait { width: 12rem; height: 12rem; }
   .about-body { padding-top: 2.5rem; }
 }

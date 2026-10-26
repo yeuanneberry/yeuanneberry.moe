@@ -11,6 +11,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "0.4.5",
     "@astrojs/react": "7.0.0",
     "astro": "7.4.2",
     "oxc-transform-react": "0.145.0",
@@ -19,9 +20,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
-    "@yeuanneberry/config": "workspace:*",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "@yeuanneberry/config": "workspace:*",
     "typescript": "6.0.3"
   }
 }

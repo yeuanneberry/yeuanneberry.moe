@@ -5,15 +5,7 @@ import { getImage } from "astro:assets";
 import portrait from "../assets/profile.png";
 import { profile } from "../data/profile";
 
-interface Props {
-  title?: string;
-  description?: string;
-}
-
-const {
-  title = "Yeuanne Berry · Development & projects",
-  description = profile.description,
-} = Astro.props;
+const title = profile.name;
 const favicon = await getImage({ src: portrait, width: 32, height: 32, format: "png" });
 const touchIcon = await getImage({ src: portrait, width: 180, height: 180, format: "png" });
 ---
@@ -23,12 +15,12 @@ const touchIcon = await getImage({ src: portrait, width: 180, height: 180, forma
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
+    <meta name="description" content={profile.name} />
     <link rel="icon" type="image/png" sizes="32x32" href={favicon.src} />
     <link rel="apple-touch-icon" sizes="180x180" href={touchIcon.src} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={profile.name} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
@@ -37,10 +29,10 @@ const touchIcon = await getImage({ src: portrait, width: 180, height: 180, forma
     <Header />
     <slot />
     <footer class="site-footer shell">
-      <p>Yeuanne Berry <span aria-hidden="true">/</span> Built with care.</p>
+      <p>Yeuanne Berry</p>
       <nav aria-label="Elsewhere">
-        <a href={profile.github}>GitHub ↗</a>
-        <a href={profile.studio}>Yappers ↗</a>
+        <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub ↗<span class="sr-only"> (opens in a new tab)</span></a>
+        <a href={profile.studio} target="_blank" rel="noopener noreferrer">Yappers ↗<span class="sr-only"> (opens in a new tab)</span></a>
         <a href="/docs/">Berry docs →</a>
       </nav>
     </footer>

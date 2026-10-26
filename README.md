@@ -6,7 +6,12 @@ through Yappers; each case study records the owner's specific contribution.
 
 Astro + React, static output. Reading, project navigation and repository links
 work without JavaScript; only documentation search hydrates a React island.
-The approved portrait supplies the profile, favicon and touch icon. Fonts and
+Mobile navigation uses a full-screen native dialog with a small vanilla script;
+without JavaScript the regular navigation links remain visible. Browser and
+social metadata use only "Yeuanne Berry". External links open a new tab with
+noopener/noreferrer and an accessible hint; internal navigation stays in place.
+The original portrait supplies high-density responsive WebP display images and
+PNG favicon/touch icons. Fonts and
 preview images are served locally. There is no login, database, telemetry or
 visitor-side GitHub request.
 
@@ -44,6 +49,9 @@ That repository owns presets and manual content; the website owns presentation.
 Follow [reader maintenance](docs/READER-MAINTENANCE.md) to refresh them. The
 source-publication flag prevents links to an unpublished candidate. Private
 machine/AI sources are not imported into this reader.
+
+The native Markdown visitor in `apps/web/external-links.mjs` adds new-tab behavior
+to rendered guide links. Keep this presentation rule out of generated chapters.
 
 Original code and documentation use [MIT](LICENSE). Read the separate
 [asset notices](NOTICE.md) before reusing images or fonts. Domain configuration

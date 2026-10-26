@@ -27,7 +27,7 @@ const toc = headings.filter((heading) => heading.depth === 2 || heading.depth ==
   </details>}
   <article class="prose" aria-label={entry.data.title}><Content /></article>
   <div class="source-note">
-    <p>From {entry.data.sourcePublished ? <a href={entry.data.sourceUrl}>{entry.data.repository} ↗</a> : <span>{entry.data.repository}</span>} · reviewed {entry.data.reviewed}</p>
+    <p>From {entry.data.sourcePublished ? <a href={entry.data.sourceUrl} target="_blank" rel="noopener noreferrer">{entry.data.repository} ↗<span class="sr-only"> (opens in a new tab)</span></a> : <span>{entry.data.repository}</span>} · reviewed {entry.data.reviewed}</p>
     <details>
       <summary>Source details</summary>
       <p>Revision <code>{entry.data.sourceRevision}</code></p>
