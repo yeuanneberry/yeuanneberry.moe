@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "reviewed": "2026-10-26",
+  "repositories": {
+    "berry-desktop": { "revision": "a90591ace12cd408ae030b440d0e6612891b26a8", "url": "https://github.com/yeuanneberry/berry-desktop", "published": true }
+  },
+  "chapters": [
+    { "id": "overview", "title": "Berry overview", "group": "Desktop", "order": 1, "description": "What Berry includes, how it is organized, and the scope of the configuration collection.", "repository": "berry-desktop", "path": "docs/overview.md" },
+    { "id": "start", "title": "Start with one app", "group": "Setup", "order": 2, "description": "Prerequisites, source verification, and staging your first preset.", "repository": "berry-desktop", "path": "docs/start.md" },
+    { "id": "customize", "title": "Make it your own", "group": "Desktop", "order": 3, "description": "Native includes, application preferences, fonts, and local overrides.", "repository": "berry-desktop", "path": "docs/customize.md" },
+    { "id": "apply-recover", "title": "Apply & recover", "group": "Setup", "order": 4, "description": "Review a change, keep backups, and recover one application at a time.", "repository": "berry-desktop", "path": "docs/apply-recover.md" },
+    { "id": "update", "title": "Keep it updated", "group": "Setup", "order": 5, "description": "Pin a baseline, compare local changes, and update with a way back.", "repository": "berry-desktop", "path": "docs/update.md" },
+    { "id": "reference", "title": "Files & troubleshooting", "group": "Reference", "order": 6, "description": "Configuration destinations, application dependencies, and common fixes.", "repository": "berry-desktop", "path": "docs/reference.md" }
+  ]
+}

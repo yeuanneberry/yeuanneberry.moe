@@ -1,0 +1,42 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import ManualLayout from "../../layouts/ManualLayout.astro";
+import { getChapters } from "../../lib/manual";
+
+export async function getStaticPaths() {
+  return (await getChapters()).map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+interface Props { entry: CollectionEntry<"manual"> }
+const { entry } = Astro.props;
+const chapters = await getChapters();
+const index = chapters.findIndex((chapter) => chapter.id === entry.id);
+const previous = chapters[index - 1];
+const next = chapters[index + 1];
+const { Content, headings } = await render(entry);
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+---
+
+<ManualLayout title={entry.data.title} description={entry.data.description} current={entry.id} headings={headings}>
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/docs/">Documentation</a><span aria-hidden="true">/</span><span>{entry.data.group}</span>
+  </nav>
+  <p class="eyebrow">Chapter {String(entry.data.order).padStart(2, "0")} / {entry.data.group}</p>
+  {toc.length > 0 && <details class="mobile-toc">
+    <summary>On this page</summary>
+    <ul>{toc.map((heading) => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ul>
+  </details>}
+  <article class="prose" aria-label={entry.data.title}><Content /></article>
+  <div class="source-note">
+    <p>From {entry.data.sourcePublished ? <a href={entry.data.sourceUrl}>{entry.data.repository} ↗</a> : <span>{entry.data.repository}</span>} · reviewed {entry.data.reviewed}</p>
+    <details>
+      <summary>Source details</summary>
+      <p>Revision <code>{entry.data.sourceRevision}</code></p>
+      <p><code>{entry.data.sourcePath}</code></p>
+      <p>This is a reader copy. Propose edits in the maintained source, then refresh the reviewed edition.</p>
+    </details>
+  </div>
+  <nav class="chapter-pagination" aria-label="Adjacent chapters">
+    {previous ? <a href={`/docs/${previous.id}/`}><span>← Previous</span>{previous.data.title}</a> : <a href="/docs/"><span>← The manual</span>All chapters</a>}
+    {next && <a href={`/docs/${next.id}/`}><span>Next →</span>{next.data.title}</a>}
+  </nav>
+</ManualLayout>

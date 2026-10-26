@@ -1,0 +1,22 @@
+---
+import { getImage } from "astro:assets";
+import portrait from "../assets/profile.png";
+const avatar = await getImage({ src: portrait, width: 32, height: 32, format: "webp" });
+const path = Astro.url.pathname;
+const links = [
+  ["Home", "/"], ["Work", "/work/"], ["Code", "/code/"],
+  ["Berry docs", "/docs/"], ["About", "/about/"],
+];
+---
+
+<header class="site-header">
+  <div class="header-inner shell">
+    <a class="wordmark" href="/" aria-label="Yeuanne Berry home">
+      <img src={avatar.src} width="32" height="32" alt="" class="header-avatar" />
+      <span>yeuanne<span class="olive">berry</span></span>
+    </a>
+    <nav aria-label="Primary">
+      {links.map(([label, href]) => <a href={href} aria-current={path === href ? "page" : href !== "/" && path.startsWith(href!) ? "true" : undefined}>{label}</a>)}
+    </nav>
+  </div>
+</header>

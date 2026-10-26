@@ -1,0 +1,23 @@
+---
+import { getChapters, groups } from "../lib/manual";
+interface Props { current?: string }
+const { current } = Astro.props;
+const chapters = await getChapters();
+---
+
+<nav class="chapter-nav" aria-label="Chapters">
+  <a class="chapter-index" href="/docs/" aria-current={current === "index" ? "page" : undefined}>All documentation</a>
+  {groups.map((group) => (
+    <section>
+      <h2>{group}</h2>
+      <ol>
+        {chapters.filter((chapter) => chapter.data.group === group).map((chapter) => (
+          <li><a href={`/docs/${chapter.id}/`} aria-current={current === chapter.id ? "page" : undefined}>
+            <span class="chapter-number" aria-hidden="true">{String(chapter.data.order).padStart(2, "0")}</span>
+            {chapter.data.title}
+          </a></li>
+        ))}
+      </ol>
+    </section>
+  ))}
+</nav>

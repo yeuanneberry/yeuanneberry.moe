@@ -1,0 +1,35 @@
+---
+import Layout from "./Layout.astro";
+import ChapterNav from "../components/ChapterNav.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  current: string;
+  headings?: { depth: number; slug: string; text: string }[];
+}
+const { title, description, current, headings = [] } = Astro.props;
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+---
+
+<Layout title={`${title} · Berry field notes`} description={description}>
+  <div class:list={["manual-layout", "shell", { "with-toc": toc.length > 0 }]}>
+    <aside class="desktop-chapters"><ChapterNav current={current} /></aside>
+    <main id="main-content" tabindex="-1" class="manual-main">
+      <details class="mobile-chapters">
+        <summary>Browse chapters <span aria-hidden="true">+</span></summary>
+        <ChapterNav current={current} />
+      </details>
+      <slot />
+    </main>
+    {toc.length > 0 && <aside class="on-this-page">
+      <nav aria-label="On this page">
+        <h2>On this page</h2>
+        <ol>{toc.map((heading) => <li class:list={{ "subheading": heading.depth === 3 }}>
+          <a href={`#${heading.slug}`}>{heading.text}</a>
+        </li>)}</ol>
+        <a class="back-to-top" href="#main-content">Back to top ↑</a>
+      </nav>
+    </aside>}
+  </div>
+</Layout>
