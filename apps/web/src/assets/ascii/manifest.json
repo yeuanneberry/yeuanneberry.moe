@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "source": {
+    "path": "apps/web/src/assets/profile.png",
+    "sha256": "00496e0f415188fdd24af035ec36670683ccb58ef7aa882b158fb9d98b1e3906",
+    "width": 1024,
+    "height": 1024
+  },
+  "generator": {
+    "path": "scripts/generate-ascii-portrait.mjs",
+    "sha256": "545902da19739ccf759dcc49ae83121b952fc40e295836960c3195017c6b6d34",
+    "sharp": "0.35.5",
+    "vips": "8.18.7"
+  },
+  "options": {
+    "crop": "full-source-square",
+    "polarity": "dark-source-to-dense-light-glyphs",
+    "contrastPercentiles": [
+      1,
+      99
+    ],
+    "edgeWeight": 0.12,
+    "backgroundCutoff": 0.055,
+    "cellWidthToHeight": 0.6,
+    "resampling": "lanczos3",
+    "ramp": " .:-=+*#%@"
+  },
+  "contrastBounds": [
+    1,
+    220
+  ],
+  "artifacts": [
+    {
+      "file": "portrait-desktop.txt",
+      "columns": 80,
+      "rows": 48,
+      "sha256": "c79c33f1056be65b412a4afca093a7c2389a4cd99b1b693e7679146b1d501684"
+    },
+    {
+      "file": "portrait-mobile.txt",
+      "columns": 48,
+      "rows": 29,
+      "sha256": "5bc6d0b64542ea31b6d26fbc80ecdd27dfea0d22c24c6a6a481b2a035e6d276b"
+    }
+  ],
+  "notice": "Derived from the supplied profile artwork; excluded from the source-code MIT license. See NOTICE.md."
+}

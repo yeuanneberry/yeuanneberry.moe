@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Header from "../components/Header.astro";
+import Icon from "../components/Icon.astro";
 import { getImage } from "astro:assets";
 import portrait from "../assets/profile.png";
 import { profile } from "../data/profile";
@@ -31,10 +32,14 @@ const touchIcon = await getImage({ src: portrait, width: 180, height: 180, forma
     <footer class="site-footer shell">
       <p>Yeuanne Berry</p>
       <nav aria-label="Elsewhere">
-        <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub ↗<span class="sr-only"> (opens in a new tab)</span></a>
-        <a href={profile.studio} target="_blank" rel="noopener noreferrer">Yappers ↗<span class="sr-only"> (opens in a new tab)</span></a>
-        <a href="/docs/">Berry docs →</a>
+        <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub <Icon name="external" size={14} /><span class="sr-only"> (opens in a new tab)</span></a>
+        <a href={profile.studio} target="_blank" rel="noopener noreferrer">Yappers <Icon name="external" size={14} /><span class="sr-only"> (opens in a new tab)</span></a>
+        <a href="/docs/">Berry docs <Icon name="arrow-right" size={14} /></a>
       </nav>
     </footer>
   </body>
 </html>
+
+<script>
+  import "../scripts/menu-motion";
+</script>

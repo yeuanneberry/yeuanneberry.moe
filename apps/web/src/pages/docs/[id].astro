@@ -1,6 +1,7 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
 import ManualLayout from "../../layouts/ManualLayout.astro";
+import Icon from "../../components/Icon.astro";
 import { getChapters } from "../../lib/manual";
 
 export async function getStaticPaths() {
@@ -27,7 +28,7 @@ const toc = headings.filter((heading) => heading.depth === 2 || heading.depth ==
   </details>}
   <article class="prose" aria-label={entry.data.title}><Content /></article>
   <div class="source-note">
-    <p>From {entry.data.sourcePublished ? <a href={entry.data.sourceUrl} target="_blank" rel="noopener noreferrer">{entry.data.repository} ↗<span class="sr-only"> (opens in a new tab)</span></a> : <span>{entry.data.repository}</span>} · reviewed {entry.data.reviewed}</p>
+    <p>From {entry.data.sourcePublished ? <a href={entry.data.sourceUrl} target="_blank" rel="noopener noreferrer">{entry.data.repository} <Icon name="external" /><span class="sr-only"> (opens in a new tab)</span></a> : <span>{entry.data.repository}</span>} · reviewed {entry.data.reviewed}</p>
     <details>
       <summary>Source details</summary>
       <p>Revision <code>{entry.data.sourceRevision}</code></p>
@@ -36,7 +37,7 @@ const toc = headings.filter((heading) => heading.depth === 2 || heading.depth ==
     </details>
   </div>
   <nav class="chapter-pagination" aria-label="Adjacent chapters">
-    {previous ? <a href={`/docs/${previous.id}/`}><span>← Previous</span>{previous.data.title}</a> : <a href="/docs/"><span>← The manual</span>All chapters</a>}
-    {next && <a href={`/docs/${next.id}/`}><span>Next →</span>{next.data.title}</a>}
+    {previous ? <a href={`/docs/${previous.id}/`}><span><Icon name="arrow-left" /> Previous</span>{previous.data.title}</a> : <a href="/docs/"><span><Icon name="arrow-left" /> The manual</span>All chapters</a>}
+    {next && <a href={`/docs/${next.id}/`}><span>Next <Icon name="arrow-right" /></span>{next.data.title}</a>}
   </nav>
 </ManualLayout>

@@ -14,6 +14,10 @@ the personal portrait and favicon. SHA-256:
 Build-time responsive/icon derivatives preserve that artwork. It is not included
 in the code license or offered as a generic reusable brand asset.
 
+The text portraits under `apps/web/src/assets/ascii` are offline derivatives of
+the same supplied artwork and have the same exclusion from the code license.
+Their manifest records the original source hash, generator, toolchain and settings.
+
 ## Project previews
 
 Images under `apps/web/src/assets/work` are captures of the five approved public
@@ -31,6 +35,10 @@ JetBrains Mono is Copyright 2020 The JetBrains Mono Project Authors. The unchang
 font is served locally; its SIL Open Font License 1.1 is retained at
 `apps/web/public/fonts/OFL.txt`. Other dependencies retain their own licenses.
 No wallpaper or historical desktop artwork is part of this release tree.
+
+Lucide icons and Motion retain their upstream licenses, reproduced in
+[third-party notices](THIRD_PARTY_NOTICES.md). Only selected Lucide SVGs are used;
+Motion's JavaScript mini entry enhances the native menu controller.
 
 ## Documentation
 

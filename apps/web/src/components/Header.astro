@@ -1,11 +1,14 @@
 ---
 import { Image } from "astro:assets";
 import portrait from "../assets/profile.png";
+import Icon from "./Icon.astro";
+import navigationScript from "../scripts/navigation.js?raw";
 const path = Astro.url.pathname;
 const links = [
   ["Home", "/"], ["Work", "/work/"], ["Code", "/code/"],
   ["Berry docs", "/docs/"], ["About", "/about/"],
 ];
+const current = (href: string) => path === href ? "page" : href !== "/" && path.startsWith(href) ? "true" : undefined;
 ---
 
 <header class="site-header" data-site-navigation>
@@ -15,72 +18,36 @@ const links = [
       <span>yeuanne<span class="olive">berry</span></span>
     </a>
     <nav class="desktop-nav" aria-label="Primary">
-      {links.map(([label, href]) => <a href={href} aria-current={path === href ? "page" : href !== "/" && path.startsWith(href!) ? "true" : undefined}>{label}</a>)}
+      {links.map(([label, href]) => <a href={href} aria-current={current(href!)}>{label}</a>)}
     </nav>
-    <button class="mobile-menu-toggle" id="open-navigation" type="button" aria-controls="mobile-navigation" aria-expanded="false" aria-haspopup="dialog" hidden>
-      <span>Menu</span>
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h14M3 14h14" /></svg>
+    <button class="mobile-menu-toggle menu-control" id="open-navigation" type="button" aria-label="Open menu" aria-controls="mobile-navigation" aria-expanded="false" aria-haspopup="dialog">
+      <Icon name="menu" size={20} />
     </button>
   </div>
-  <dialog class="mobile-menu" id="mobile-navigation" aria-labelledby="mobile-menu-title">
+  <dialog class="mobile-menu" id="mobile-navigation" aria-label="Navigation">
     <div class="mobile-menu-inner shell">
       <div class="mobile-menu-top">
-        <p id="mobile-menu-title">Navigation</p>
-        <button id="close-navigation" class="mobile-menu-close" type="button" autofocus>
-          <span>Close</span>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m4 4 12 12M16 4 4 16" /></svg>
+        <div class="wordmark" aria-hidden="true">
+          <Image src={portrait} width={32} height={32} widths={[32, 64, 96]} sizes="32px" format="webp" quality={90} alt="" class="menu-avatar" />
+          <span>yeuanne<span class="olive">berry</span></span>
+        </div>
+        <button id="close-navigation" class="mobile-menu-close menu-control" type="button" aria-label="Close menu" autofocus>
+          <Icon name="close" size={20} />
         </button>
       </div>
       <nav class="mobile-nav" aria-label="Primary">
-        {links.map(([label, href]) => <a href={href} aria-current={path === href ? "page" : href !== "/" && path.startsWith(href!) ? "true" : undefined}>{label}</a>)}
+        {links.map(([label, href]) => <a href={href} aria-current={current(href!)}>{label}</a>)}
       </nav>
     </div>
   </dialog>
 </header>
-
-<script>
-  const header = document.querySelector<HTMLElement>("[data-site-navigation]");
-  const toggle = document.getElementById("open-navigation");
-  const panel = document.getElementById("mobile-navigation");
-  const close = document.getElementById("close-navigation");
-
-  if (header && toggle instanceof HTMLButtonElement && panel instanceof HTMLDialogElement && close instanceof HTMLButtonElement) {
-    const mobile = window.matchMedia("(max-width: 850px)");
-    toggle.addEventListener("click", () => {
-      if (!mobile.matches || panel.open) return;
-      panel.showModal();
-      toggle.setAttribute("aria-expanded", "true");
-      document.documentElement.classList.add("navigation-open");
-    });
-    close.addEventListener("click", () => panel.close());
-    panel.addEventListener("keydown", (event) => {
-      if (event.key !== "Tab" || event.ctrlKey || event.altKey || event.metaKey) return;
-      const items = panel.querySelectorAll<HTMLAnchorElement | HTMLButtonElement>("a[href], button:not([disabled])");
-      const first = items[0];
-      const last = items[items.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last?.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first?.focus();
-      }
-    });
-    panel.addEventListener("close", () => {
-      toggle.setAttribute("aria-expanded", "false");
-      document.documentElement.classList.remove("navigation-open");
-      if (mobile.matches) toggle.focus();
-    });
-    panel.addEventListener("click", (event) => {
-      if (event.target instanceof Element && event.target.closest("a[href]")) panel.close();
-    });
-    mobile.addEventListener("change", () => {
-      if (!mobile.matches && panel.open) {
-        panel.close();
-        header.querySelector<HTMLAnchorElement>(".desktop-nav a[aria-current]")?.focus();
-      }
-    });
-    toggle.hidden = false;
-    header.classList.add("navigation-ready");
-  }
-</script>
+<script is:inline set:html={navigationScript} />
+<noscript>
+  <style is:inline>
+    @media (max-width: 850px) {
+      .site-header .mobile-menu-toggle { display: none; }
+      .site-header .header-inner { flex-wrap: wrap; padding-block: .8rem; }
+      .site-header .desktop-nav { display: flex; width: 100%; justify-content: space-between; gap: .5rem; }
+    }
+  </style>
+</noscript>

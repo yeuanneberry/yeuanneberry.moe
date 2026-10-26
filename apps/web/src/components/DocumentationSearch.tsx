@@ -57,10 +57,10 @@ export default function DocumentationSearch({ chapters }: { chapters: SearchChap
     {filtered.length ? <ol className="search-results">
       {filtered.map((chapter) => <li key={chapter.id}>
         <a className="chapter-result" href={`/docs/${chapter.id}/`}>
-          <span className="result-meta"><span>{String(chapter.order).padStart(2, "0")} / {chapter.group}</span><span aria-hidden="true">↗</span></span>
+          <span className="result-meta"><span>{String(chapter.order).padStart(2, "0")} / {chapter.group}</span></span>
           <h2>{chapter.title}</h2>
           <p>{excerpt(chapter, terms)}</p>
-          <span className="read-label">Read chapter <span aria-hidden="true">→</span></span>
+          <span className="read-label">Read chapter</span>
         </a>
       </li>)}
     </ol> : <div className="empty-state">

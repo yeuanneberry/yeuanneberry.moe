@@ -12,10 +12,16 @@ test('mobile navigation fills the viewport and supports keyboard close and navig
   }
   await expect(toggle).toBeVisible();
   await expect(page.locator('.desktop-nav')).toBeHidden();
+  const triggerBox = (await toggle.boundingBox())!;
+  expect(triggerBox.width).toBe(44);
+  expect(triggerBox.height).toBe(44);
   await toggle.click();
   await expect(dialog).toBeVisible();
   await expect(toggle).toHaveAttribute('aria-expanded', 'true');
-  await expect(dialog.getByRole('button', { name: 'Close' })).toBeFocused();
+  const close = dialog.getByRole('button', { name: 'Close menu', exact: true });
+  await expect(close).toBeFocused();
+  const closeBox = (await close.boundingBox())!;
+  for (const key of ['x', 'y', 'width', 'height'] as const) expect(closeBox[key]).toBeCloseTo(triggerBox[key], 0);
   const box = (await dialog.boundingBox())!;
   expect(box.x).toBeCloseTo(0, 0);
   expect(box.y).toBeCloseTo(0, 0);
@@ -30,14 +36,14 @@ test('mobile navigation fills the viewport and supports keyboard close and navig
   await page.keyboard.press('Shift+Tab');
   await expect(dialog.getByRole('link', { name: 'About', exact: true })).toBeFocused();
   await page.keyboard.press('Tab');
-  await expect(dialog.getByRole('button', { name: 'Close' })).toBeFocused();
+  await expect(close).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await expect(toggle).toBeFocused();
   await expect(page.locator('html')).not.toHaveClass(/navigation-open/);
   await toggle.click();
-  await dialog.getByRole('button', { name: 'Close' }).click();
+  await close.click();
   await expect(dialog).toBeHidden();
   await expect(toggle).toBeFocused();
   await toggle.click();
@@ -56,8 +62,15 @@ test('About has the approved bio and ASCII without decorative copy', async ({ pa
   await page.goto('/about/');
   await expect(page.locator('main')).toContainText('Computer Science dropout');
   await expect(page.locator('main')).toContainText('working full-time as a Head IT Administrator');
-  await expect(page.locator('.about-ascii')).toContainText('$ whoami');
-  await expect(page.locator('.about-ascii')).toHaveAttribute('aria-hidden', 'true');
+  const portrait = page.getByRole('img', { name: "ASCII rendering of Yeuanne Berry's profile artwork" });
+  await expect(portrait).toBeVisible();
+  await expect(page.locator('main img')).toHaveCount(0);
+  const art = page.locator('.ascii-portrait pre:visible');
+  const lines = (await art.innerText()).split('\n');
+  expect(lines).toHaveLength(info.project.name === 'phone' ? 29 : 48);
+  expect(lines.every(line => line.length === (info.project.name === 'phone' ? 48 : 80))).toBe(true);
+  await expect(art).toHaveAttribute('aria-hidden', 'true');
+  expect((await portrait.boundingBox())!.width).toBeLessThan(page.viewportSize()!.width);
   await expect(page.locator('.site-footer')).not.toContainText('Built with care');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: info.outputPath('about.png'), fullPage: true });
@@ -69,7 +82,7 @@ test('header and portraits serve enough WebP pixels on high-density screens', as
   try {
     for (const path of ['/', '/about/']) {
       await page.goto(path);
-      for (const selector of ['.header-avatar', 'main img[alt="Yeuanne Berry"]']) {
+      for (const selector of path === '/' ? ['.header-avatar', 'main img[alt="Yeuanne Berry"]'] : ['.header-avatar']) {
         const image = page.locator(selector);
         await image.scrollIntoViewIfNeeded();
         const dimensions = await image.evaluate(async element => {

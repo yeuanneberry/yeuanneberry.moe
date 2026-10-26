@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import WorkCard from "../../components/WorkCard.astro";
+import Icon from "../../components/Icon.astro";
 import { projects } from "../../data/work";
 import "../../styles/work.css";
 ---
@@ -19,7 +20,7 @@ import "../../styles/work.css";
       <p class="eyebrow">The quieter side</p>
       <h2>Notes from my own setup</h2>
       <p>Berry is where I keep the desktop and development workflow in order.</p>
-      <a class="subtle-link" href="/docs/">Read the Berry documentation →</a>
+      <a class="subtle-link" href="/docs/">Read the Berry documentation <Icon name="arrow-right" /></a>
     </aside>
   </main>
 </Layout>

@@ -20,11 +20,9 @@
 .about-page, .code-page { padding-block: 4rem 5rem; }
 .about-intro { display: flex; justify-content: space-between; align-items: center; gap: 3rem; padding-bottom: 3.5rem; border-bottom: 1px solid var(--border); }
 .about-intro h1 { font-size: clamp(2.2rem, 4vw, 3.8rem); }
-.about-portrait { width: 200px; height: 200px; flex-shrink: 0; border-radius: 4px; border: 1px solid var(--border); }
 .about-intro > div { max-width: 43rem; }
 .about-intro > div > p:not(.portfolio-lede) { color: var(--muted); line-height: 1.9; }
 .about-body { max-width: 50rem; margin-left: auto; padding-top: 3.5rem; }
-.about-ascii { width: fit-content; max-width: 100%; margin: 0 0 3rem; padding: 0; background: transparent; border: 0; color: var(--olive); font-size: clamp(.75rem, 2.5vw, .95rem); line-height: 1.5; white-space: pre; }
 .about-body section { margin-bottom: 3.5rem; }
 .about-body h2 { font-size: 1.5rem; margin-bottom: 1.5rem; }
 .about-body p { color: var(--muted); line-height: 1.95; }

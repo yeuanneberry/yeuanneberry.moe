@@ -1,6 +1,7 @@
 ---
 import Layout from "./Layout.astro";
 import ChapterNav from "../components/ChapterNav.astro";
+import Icon from "../components/Icon.astro";
 
 interface Props {
   title: string;
@@ -17,7 +18,7 @@ const toc = headings.filter((heading) => heading.depth === 2 || heading.depth ==
     <aside class="desktop-chapters"><ChapterNav current={current} /></aside>
     <main id="main-content" tabindex="-1" class="manual-main">
       <details class="mobile-chapters">
-        <summary>Browse chapters <span aria-hidden="true">+</span></summary>
+        <summary>Browse chapters <Icon name="plus" /></summary>
         <ChapterNav current={current} />
       </details>
       <slot />
@@ -28,7 +29,7 @@ const toc = headings.filter((heading) => heading.depth === 2 || heading.depth ==
         <ol>{toc.map((heading) => <li class:list={{ "subheading": heading.depth === 3 }}>
           <a href={`#${heading.slug}`}>{heading.text}</a>
         </li>)}</ol>
-        <a class="back-to-top" href="#main-content">Back to top ↑</a>
+        <a class="back-to-top" href="#main-content">Back to top <Icon name="arrow-up" /></a>
       </nav>
     </aside>}
   </div>

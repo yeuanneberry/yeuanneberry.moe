@@ -49,7 +49,7 @@ test('personal home has the approved portrait, usable navigation and picture fav
   await imagesLoaded(page);
   await noOverflow(page);
   await page.screenshot({ path: info.outputPath('portfolio-home.png'), fullPage: true });
-  if (info.project.name === 'phone') await page.getByRole('button', { name: 'Menu', exact: true }).click();
+  if (info.project.name === 'phone') await page.getByRole('button', { name: 'Open menu', exact: true }).click();
   const primary = page.getByRole('navigation', { name: 'Primary', exact: true });
   for (const [name, path] of [['Home', '/'], ['Work', '/work/'], ['Code', '/code/'], ['Berry docs', '/docs/'], ['About', '/about/']]) {
     await expect(primary.getByRole('link', { name, exact: true })).toHaveAttribute('href', path);

@@ -6,14 +6,21 @@ through Yappers; each case study records the owner's specific contribution.
 
 Astro + React, static output. Reading, project navigation and repository links
 work without JavaScript; only documentation search hydrates a React island.
-Mobile navigation uses a full-screen native dialog with a small vanilla script;
-without JavaScript the regular navigation links remain visible. Browser and
+Mobile navigation uses a full-screen native dialog with an early inline controller;
+it works before animation scripts download. Without JavaScript the regular links
+remain visible. Open/close buttons share the same size and header alignment. Browser and
 social metadata use only "Yeuanne Berry". External links open a new tab with
 noopener/noreferrer and an accessible hint; internal navigation stays in place.
 The original portrait supplies high-density responsive WebP display images and
 PNG favicon/touch icons. Fonts and
 preview images are served locally. There is no login, database, telemetry or
 visitor-side GitHub request.
+
+Selected Lucide icons render as static Astro SVGs. Motion's vanilla JavaScript
+mini entry adds 220ms menu entrances and 160ms exits; CSS uses 140ms interaction
+transitions and 320ms introductions. Reduced motion disables decorative movement.
+Core menu behavior never waits for Motion, and interrupted transitions keep native
+focus and background-scroll handling until the dialog is closed.
 
 ## Local use
 
@@ -52,6 +59,21 @@ machine/AI sources are not imported into this reader.
 
 The native Markdown visitor in `apps/web/external-links.mjs` adds new-tab behavior
 to rendered guide links. Keep this presentation rule out of generated chapters.
+
+About uses a static ASCII derivative of the supplied portrait, in 80x48 desktop
+and 48x29 phone grids. Generate or verify it offline from the repository root:
+
+```sh
+node scripts/generate-ascii-portrait.mjs
+pnpm check-ascii
+```
+
+Text artifacts and their source/settings/toolchain manifest are checked in under
+`apps/web/src/assets/ascii`. The generator uses locked Sharp and bundled libvips;
+`--check` verifies that toolchain's output. No visitor-side conversion, canvas or
+external service is involved. Individual characters are hidden from assistive
+technology; the portrait has one accessible description. Home/header images and
+favicons keep using the original image. Preserve the derivative's asset notice.
 
 Original code and documentation use [MIT](LICENSE). Read the separate
 [asset notices](NOTICE.md) before reusing images or fonts. Domain configuration

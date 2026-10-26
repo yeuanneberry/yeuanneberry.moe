@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/Icon.astro";
 import { projects, type WorkProject } from "../../data/work";
 import "../../styles/work.css";
 
@@ -38,15 +39,15 @@ const next = projects[(index + 1) % projects.length]!;
         <a href="#the-project">01 / The project</a>
         <a href="#my-contribution">02 / My contribution</a>
         <a href="#delivery">03 / What I delivered</a>
-        <a class="case-visit" href={project.url} target="_blank" rel="noopener noreferrer">Visit {project.title} <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="case-visit" href={project.url} target="_blank" rel="noopener noreferrer">Visit {project.title} <Icon name="external" /><span class="sr-only"> (opens in a new tab)</span></a>
       </nav>
       <div class="case-copy">
         <section aria-labelledby="the-project"><p class="eyebrow">01 / Context</p><h2 id="the-project">The project</h2><p>{project.goal}</p></section>
         <section aria-labelledby="my-contribution"><p class="eyebrow">02 / My part</p><h2 id="my-contribution">My contribution</h2><p>{project.contribution}</p><p class="case-credit">{project.designCredit}</p></section>
         <section aria-labelledby="delivery"><p class="eyebrow">03 / Delivery</p><h2 id="delivery">What I delivered</h2><ul>{project.delivery.map((item) => <li>{item}</li>)}</ul></section>
-        <a class="button" href={project.url} target="_blank" rel="noopener noreferrer">Visit {project.title}<span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="button" href={project.url} target="_blank" rel="noopener noreferrer">Visit {project.title}<Icon name="external" /><span class="sr-only"> (opens in a new tab)</span></a>
       </div>
     </div>
-    <nav class="case-pagination" aria-label="More projects"><a href="/work/">← All work</a><a href={`/work/${next.slug}/`}><span>Next project</span>{next.title} →</a></nav>
+    <nav class="case-pagination" aria-label="More projects"><a href="/work/"><Icon name="arrow-left" /> All work</a><a href={`/work/${next.slug}/`}><span>Next project</span>{next.title} <Icon name="arrow-right" /></a></nav>
   </main>
 </Layout>
