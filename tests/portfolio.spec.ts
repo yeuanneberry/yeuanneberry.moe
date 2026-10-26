@@ -29,6 +29,7 @@ async function imagesLoaded(page: Page) {
 test('personal home has the approved portrait, usable navigation and picture favicon', async ({ page, request }, info) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Yeuanne Berry/);
+  await expect(page.locator('.name-pronunciation')).toContainText('/jɑ.nɪ/');
   await expect(page.getByRole('img', { name: 'Yeuanne Berry', exact: true })).toBeVisible();
   const favicon = page.locator('link[rel="icon"][type="image/png"]');
   await expect(favicon).toHaveCount(1);

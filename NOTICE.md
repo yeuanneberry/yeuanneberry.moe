@@ -14,9 +14,11 @@ the personal portrait and favicon. SHA-256:
 Build-time responsive/icon derivatives preserve that artwork. It is not included
 in the code license or offered as a generic reusable brand asset.
 
-The text portraits under `apps/web/src/assets/ascii` are offline derivatives of
-the same supplied artwork and have the same exclusion from the code license.
-Their manifest records the original source hash, generator, toolchain and settings.
+The foreground mask and text portraits under `apps/web/src/assets/ascii` are
+offline derivatives of the same supplied artwork and have the same exclusion
+from the code license.
+Their manifest records the original source and mask hashes, generator, toolchain
+and settings.
 
 ## Project previews
 

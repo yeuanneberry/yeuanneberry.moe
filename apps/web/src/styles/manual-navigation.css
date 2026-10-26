@@ -1,0 +1,14 @@
+[data-toc-link] { position: relative; }
+[data-toc-link][aria-current="location"] {
+  color: var(--ochre);
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}
+[data-toc-link][aria-current="location"]::before {
+  content: "";
+  position: absolute;
+  inset-block: .55em;
+  left: -.65rem;
+  width: 2px;
+  background: currentColor;
+}

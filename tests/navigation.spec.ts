@@ -62,6 +62,7 @@ test('About has the approved bio and ASCII without decorative copy', async ({ pa
   await page.goto('/about/');
   await expect(page.locator('main')).toContainText('Computer Science dropout');
   await expect(page.locator('main')).toContainText('working full-time as a Head IT Administrator');
+  await expect(page.locator('.name-pronunciation')).toContainText('/jɑ.nɪ/');
   const portrait = page.getByRole('img', { name: "ASCII rendering of Yeuanne Berry's profile artwork" });
   await expect(portrait).toBeVisible();
   await expect(page.locator('main img')).toHaveCount(0);
@@ -69,10 +70,23 @@ test('About has the approved bio and ASCII without decorative copy', async ({ pa
   const lines = (await art.innerText()).split('\n');
   expect(lines).toHaveLength(info.project.name === 'phone' ? 29 : 48);
   expect(lines.every(line => line.length === (info.project.name === 'phone' ? 48 : 80))).toBe(true);
+  expect(lines.slice(-8).every(line => line.slice(0, 5).trim() === '')).toBe(true);
   await expect(art).toHaveAttribute('aria-hidden', 'true');
   expect((await portrait.boundingBox())!.width).toBeLessThan(page.viewportSize()!.width);
   await expect(page.locator('.site-footer')).not.toContainText('Built with care');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  const [work, berry, links] = await page.locator('.about-body > section').all();
+  const workBox = (await work!.boundingBox())!;
+  const berryBox = (await berry!.boundingBox())!;
+  const linksBox = (await links!.boundingBox())!;
+  if (info.project.name === 'desktop') {
+    expect(berryBox.y).toBeCloseTo(workBox.y, 0);
+    expect(berryBox.x).toBeGreaterThan(workBox.x + workBox.width);
+  } else {
+    expect(berryBox.x).toBeCloseTo(workBox.x, 0);
+    expect(berryBox.y).toBeGreaterThan(workBox.y + workBox.height);
+  }
+  expect(linksBox.y).toBeGreaterThan(berryBox.y + berryBox.height);
   await page.screenshot({ path: info.outputPath('about.png'), fullPage: true });
 });
 

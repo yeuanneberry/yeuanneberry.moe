@@ -1,5 +1,6 @@
 .portfolio-hero { display: grid; grid-template-columns: minmax(0, 1fr) 19rem; gap: 5rem; align-items: center; padding-block: 1rem 2rem; }
-.portfolio-hero h1 { font-size: clamp(2.8rem, 5vw, 5rem); letter-spacing: -.065em; margin-bottom: 1.3rem; }
+.portfolio-hero h1 { font-size: clamp(2.8rem, 5vw, 5rem); letter-spacing: -.065em; margin-bottom: .4rem; }
+.name-pronunciation { color: var(--muted); font-size: .85rem; margin: 0 0 1.25rem; }
 .portfolio-lede { color: var(--paper); font-size: clamp(1.1rem, 2vw, 1.55rem); line-height: 1.65; max-width: 45rem; margin: 0 0 1.25rem; }
 .portrait-wrap { justify-self: center; border: 1px solid var(--border); padding: .75rem; background: var(--surface); transform: rotate(3deg); }
 .portrait-wrap img { width: 18rem; aspect-ratio: 1; border-radius: 2px; }
@@ -21,12 +22,14 @@
 .about-intro { display: flex; justify-content: space-between; align-items: center; gap: 3rem; padding-bottom: 3.5rem; border-bottom: 1px solid var(--border); }
 .about-intro h1 { font-size: clamp(2.2rem, 4vw, 3.8rem); }
 .about-intro > div { max-width: 43rem; }
+.about-intro .portfolio-lede { margin-bottom: .35rem; }
 .about-intro > div > p:not(.portfolio-lede) { color: var(--muted); line-height: 1.9; }
-.about-body { max-width: 50rem; margin-left: auto; padding-top: 3.5rem; }
-.about-body section { margin-bottom: 3.5rem; }
+.about-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem 4rem; padding-top: 3.5rem; }
+.about-body section { min-width: 0; max-width: 42rem; }
+.about-contact { grid-column: 1 / -1; }
 .about-body h2 { font-size: 1.5rem; margin-bottom: 1.5rem; }
 .about-body p { color: var(--muted); line-height: 1.95; }
-.about-links { display: flex; gap: 2rem; color: var(--ochre); }
+.about-links { display: flex; flex-wrap: wrap; gap: 1rem 2rem; color: var(--ochre); }
 .code-intro { max-width: 52rem; margin-bottom: 3rem; }
 .code-intro h1 { font-size: clamp(2.5rem, 4.5vw, 4.2rem); }
 .code-intro p:not(.eyebrow) { color: var(--muted); margin-bottom: 1.5rem; }
@@ -51,5 +54,5 @@
   .two-paths { gap: 2rem; }
   .about-page, .code-page { padding-block: 2.5rem 3rem; }
   .about-intro { flex-direction: column-reverse; align-items: start; gap: 2rem; padding-bottom: 2rem; }
-  .about-body { padding-top: 2.5rem; }
+  .about-body { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; padding-top: 2.5rem; }
 }

@@ -1,11 +1,15 @@
 # Yeuanne Berry
 
 A personal portfolio, five project case studies, a curated public-code collection,
-and a searchable Berry configuration manual. The featured websites were delivered
+and a six-chapter Berry configuration manual. The featured websites were delivered
 through Yappers; each case study records the owner's specific contribution.
 
 Astro + React, static output. Reading, project navigation and repository links
-work without JavaScript; only documentation search hydrates a React island.
+work without JavaScript. The chapter index renders all six guides immediately;
+there are no React islands or search/filter controls. The Astro + React stack
+remains configured. A small vanilla script highlights the section being read in
+both contents lists, without changing URL history or moving focus. Heading links
+remain native anchors and work without JavaScript.
 Mobile navigation uses a full-screen native dialog with an early inline controller;
 it works before animation scripts download. Without JavaScript the regular links
 remain visible. Open/close buttons share the same size and header alignment. Browser and
@@ -61,7 +65,12 @@ The native Markdown visitor in `apps/web/external-links.mjs` adds new-tab behavi
 to rendered guide links. Keep this presentation rule out of generated chapters.
 
 About uses a static ASCII derivative of the supplied portrait, in 80x48 desktop
-and 48x29 phone grids. Generate or verify it offline from the repository root:
+and 48x29 phone grids. A reviewed SVG foreground mask selects the character;
+contrast uses those pixels and the surrounding background becomes literal spaces.
+About's Work and Berry sections sit side by side on desktop and stack on phones.
+Home and About show the owner's pronunciation guide from
+`apps/web/src/data/profile.ts`.
+Generate or verify the portrait offline from the repository root:
 
 ```sh
 node scripts/generate-ascii-portrait.mjs
@@ -69,7 +78,10 @@ pnpm check-ascii
 ```
 
 Text artifacts and their source/settings/toolchain manifest are checked in under
-`apps/web/src/assets/ascii`. The generator uses locked Sharp and bundled libvips;
+`apps/web/src/assets/ascii` alongside `foreground-mask.svg`. After reviewing a
+mask change, regenerate both sizes and the manifest together. The manifest pins
+the original image and mask hashes. The generator uses locked Sharp and bundled
+libvips;
 `--check` verifies that toolchain's output. No visitor-side conversion, canvas or
 external service is involved. Individual characters are hidden from assistive
 technology; the portrait has one accessible description. Home/header images and

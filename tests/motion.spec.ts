@@ -1,5 +1,22 @@
 import { expect, test } from '@playwright/test';
 
+test('every main page introduction shares the entrance and honors reduced motion', async ({ page }) => {
+  const introductions = [['/', '.portfolio-hero'], ['/work/', '.work-intro'], ['/about/', '.about-intro'], ['/code/', '.code-intro'], ['/docs/', '.index-intro']];
+  for (const [path, selector] of introductions) {
+    await page.goto(path!);
+    const intro = page.locator(selector!);
+    await expect(intro).toHaveCSS('animation-name', 'introduction');
+    await expect(intro).toHaveCSS('animation-duration', '0.32s');
+    await expect(intro).toHaveCSS('opacity', '1');
+  }
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  await expect(page.locator('.index-intro')).toHaveCSS('animation-name', 'none');
+  await page.goto('/work/');
+  await expect(page.locator('.work-intro')).toHaveCSS('animation-name', 'none');
+  await expect(page.locator('.work-intro')).toHaveCSS('opacity', '1');
+});
+
 test('mobile controls work before any animation module downloads', async ({ page }, info) => {
   if (info.project.name === 'desktop') return;
   let release!: () => void;

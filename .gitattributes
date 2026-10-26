@@ -1,0 +1,2 @@
+# Fixed-width ASCII grids deliberately preserve blank background cells.
+apps/web/src/assets/ascii/portrait-*.txt whitespace=-blank-at-eol

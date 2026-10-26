@@ -1,54 +1,80 @@
 import { expect, test, type Page } from '@playwright/test';
 
 const ids = ['overview', 'start', 'customize', 'apply-recover', 'update', 'reference'];
-const results = (page: Page) => page.locator('.search-results .chapter-result');
-async function ready(page: Page) {
-  await page.goto('/docs/');
-  await expect(page.getByRole('searchbox', { name: 'Search the manual' })).toBeEnabled();
-}
+const chapters = (page: Page) => page.locator('.chapter-list .chapter-result');
+const tocLinks = (page: Page, id: string) => page.locator(`.on-this-page a[href="#${id}"], .mobile-toc a[href="#${id}"]`);
 async function noOverflow(page: Page) {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 }
 
-test('reader searches complete article bodies with trimmed case-insensitive terms', async ({ page }, info) => {
-  await ready(page);
-  await expect(results(page)).toHaveCount(6);
-  const search = page.getByRole('searchbox', { name: 'Search the manual' });
-  await search.fill('  FONT_SIZE  ');
-  await expect(results(page)).toHaveCount(1);
-  await expect(results(page)).toHaveAttribute('href', '/docs/customize/');
-  await expect(results(page)).toContainText('font_size');
+test('all six chapters are immediately browsable without search or hydration', async ({ page }, info) => {
+  await page.goto('/docs/');
+  await expect(chapters(page)).toHaveCount(6);
+  expect(await chapters(page).evaluateAll(links => links.map(link => link.getAttribute('href')))).toEqual(ids.map(id => `/docs/${id}/`));
+  for (const chapter of await chapters(page).all()) {
+    await expect(chapter.getByRole('heading', { level: 2 })).toBeVisible();
+    await expect(chapter.locator('p')).not.toBeEmpty();
+  }
+  await expect(page.getByRole('searchbox')).toHaveCount(0);
+  await expect(page.getByRole('combobox')).toHaveCount(0);
+  await expect(page.locator('astro-island')).toHaveCount(0);
   await noOverflow(page);
-  await page.screenshot({ path: info.outputPath('reader-search.png'), fullPage: true });
+  await page.screenshot({ path: info.outputPath('reader-index.png'), fullPage: true });
 });
 
-test('section filters intersect with search and reset restores focus', async ({ page }) => {
-  await ready(page);
-  const section = page.getByRole('combobox', { name: 'Section', exact: true });
-  const search = page.getByRole('searchbox', { name: 'Search the manual' });
-  await section.selectOption('Setup');
-  await expect(results(page)).toHaveCount(3);
-  await search.fill('font_size');
-  await expect(page.getByRole('heading', { name: 'No chapters found' })).toBeVisible();
-  await expect(page.getByRole('status')).toHaveText('0 chapters found');
-  await page.getByRole('button', { name: 'Reset search' }).click();
-  await expect(search).toHaveValue('');
-  await expect(search).toBeFocused();
-  await expect(section).toHaveValue('All chapters');
-  await expect(results(page)).toHaveCount(6);
-});
-
-test('skip navigation and search controls work from the keyboard', async ({ page }) => {
-  await ready(page);
+test('skip navigation and chapter links work from the keyboard', async ({ page }) => {
+  await page.goto('/docs/');
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
   await page.keyboard.press('Enter');
   expect(await page.evaluate(() => document.activeElement?.id)).toBe('main-content');
-  await page.getByRole('searchbox', { name: 'Search the manual' }).focus();
-  await page.keyboard.type('symlink');
-  await expect(results(page)).toHaveCount(1);
-  await page.keyboard.press('Tab');
-  await expect(page.getByRole('combobox', { name: 'Section', exact: true })).toBeFocused();
+  await chapters(page).first().focus();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/docs\/overview\/$/);
+});
+
+test('contents highlight follows reading in both directions without changing history or focus', async ({ page }, info) => {
+  await page.goto('/docs/customize/');
+  const first = 'keep-reusable-and-personal-choices-separate';
+  await expect(tocLinks(page, first)).toHaveCount(2);
+  for (const link of await tocLinks(page, first).all()) await expect(link).toHaveAttribute('aria-current', 'location');
+  await page.locator('#main-content').focus();
+  const initialHistory = await page.evaluate(() => history.length);
+  for (const id of ['themes-and-app-preferences', 'kitty-includes']) {
+    await page.locator(`#${id}`).evaluate(element => window.scrollTo(0, element.getBoundingClientRect().top + scrollY - 20));
+    for (const link of await tocLinks(page, id).all()) await expect(link).toHaveAttribute('aria-current', 'location');
+    await expect(page).toHaveURL(/\/docs\/customize\/$/);
+    expect(await page.evaluate(() => document.activeElement?.id)).toBe('main-content');
+  }
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  for (const link of await tocLinks(page, 'hardware-and-identity').all()) await expect(link).toHaveAttribute('aria-current', 'location');
+  expect(await page.evaluate(() => history.length)).toBe(initialHistory);
+  if (info.project.name === 'desktop') {
+    await page.screenshot({ path: info.outputPath('reader-active-section.png') });
+    await page.getByRole('link', { name: 'Back to top' }).click();
+  } else await page.evaluate(() => window.scrollTo(0, 0));
+  for (const link of await tocLinks(page, first).all()) await expect(link).toHaveAttribute('aria-current', 'location');
+});
+
+test('contents honor initial hashes, keyboard jumps and short sections near the bottom', async ({ page }, info) => {
+  await page.goto('/docs/customize/#kitty-includes');
+  for (const link of await tocLinks(page, 'kitty-includes').all()) await expect(link).toHaveAttribute('aria-current', 'location');
+  await page.reload();
+  for (const link of await tocLinks(page, 'kitty-includes').all()) await expect(link).toHaveAttribute('aria-current', 'location');
+  const toc = info.project.name === 'phone' ? page.locator('.mobile-toc') : page.locator('.on-this-page');
+  if (info.project.name === 'phone') await toc.locator('summary').click();
+  const target = toc.getByRole('link', { name: 'Hardware and identity', exact: true });
+  await target.focus();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/#hardware-and-identity$/);
+  for (const link of await tocLinks(page, 'hardware-and-identity').all()) await expect(link).toHaveAttribute('aria-current', 'location');
+  // The preceding section can land at the viewport limit on a tall screen.
+  await toc.getByRole('link', { name: 'Themes and app preferences', exact: true }).click();
+  for (const link of await tocLinks(page, 'themes-and-app-preferences').all()) await expect(link).toHaveAttribute('aria-current', 'location');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: info.project.use.viewport!.width, height: 600 });
+  await page.locator('#kitty-includes').evaluate(element => window.scrollTo(0, element.getBoundingClientRect().top + scrollY - 20));
+  for (const link of await tocLinks(page, 'kitty-includes').all()) await expect(link).toHaveAttribute('aria-current', 'location');
 });
 
 test('deep links, mobile chapters, headings and adjacent reading work', async ({ page }, info) => {
@@ -86,9 +112,9 @@ test('documentation and chapter navigation work without JavaScript', async ({ br
   const page = await browser.newPage({ baseURL, viewport: info.project.use.viewport, javaScriptEnabled: false });
   try {
     await page.goto('/docs/');
-    await expect(results(page)).toHaveCount(6);
-    await expect(page.getByRole('searchbox', { name: 'Search the manual' })).toBeDisabled();
-    await page.locator('.search-results a[href="/docs/customize/"]').click();
+    await expect(chapters(page)).toHaveCount(6);
+    await expect(page.getByRole('searchbox')).toHaveCount(0);
+    await page.locator('.chapter-list a[href="/docs/customize/"]').click();
     await expect(page.getByRole('heading', { level: 1, name: 'Customize without a second baseline' })).toBeVisible();
     if (info.project.name === 'phone') await page.getByText('Browse chapters', { exact: false }).click();
     await page.locator('.chapter-nav a[href="/docs/reference/"]:visible').click();
@@ -97,14 +123,13 @@ test('documentation and chapter navigation work without JavaScript', async ({ br
   } finally { await page.close(); }
 });
 
-test('reader hydrates without console, asset or request failures', async ({ page }) => {
+test('reader loads without console, asset or request failures', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('response', response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
-  await ready(page);
-  await page.getByRole('searchbox', { name: 'Search the manual' }).fill('rollback');
-  await expect(results(page).first()).toBeVisible();
+  await page.goto('/docs/');
+  await expect(chapters(page).first()).toBeVisible();
   for (const id of ids) await page.goto(`/docs/${id}/`);
   expect(errors).toEqual([]);
 });

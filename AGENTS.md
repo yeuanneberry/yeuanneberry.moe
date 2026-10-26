@@ -3,12 +3,15 @@
 This repository owns Yeuanne Berry's portfolio and its Berry documentation
 reader. Read README.md and NOTICE.md before editing.
 
-- Use Astro + React with static output. Hydrate only documentation search.
+- Use Astro + React with static output. The six-chapter index is static;
+  no React islands currently hydrate. Active section highlighting uses vanilla
+  JavaScript and must preserve native heading links, URL history and focus.
   Mobile navigation uses native dialog and vanilla JavaScript with a no-JS fallback.
   Its early controller must work before optional animation downloads. Use the
   shared Lucide Icon component and respect reduced-motion preferences.
-- About's ASCII portrait is generated from the approved artwork. Regenerate with
-  scripts/generate-ascii-portrait.mjs; keep its text/manifest outputs together.
+- About's ASCII portrait is generated from the approved artwork using the
+  reviewed foreground-mask.svg; outside the character stays blank. Regenerate
+  with scripts/generate-ascii-portrait.mjs; keep its mask/text/manifest together.
 - Keep metadata exactly "Yeuanne Berry" and copy direct. External links open a
   new tab with noopener/noreferrer and an accessible hint; internal routes stay put.
 - pnpm is the package manager. Keep exact direct versions and pnpm-lock.yaml.

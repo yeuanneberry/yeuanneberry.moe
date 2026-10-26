@@ -22,9 +22,9 @@ const toc = headings.filter((heading) => heading.depth === 2 || heading.depth ==
     <a href="/docs/">Documentation</a><span aria-hidden="true">/</span><span>{entry.data.group}</span>
   </nav>
   <p class="eyebrow">Chapter {String(entry.data.order).padStart(2, "0")} / {entry.data.group}</p>
-  {toc.length > 0 && <details class="mobile-toc">
+  {toc.length > 0 && <details class="mobile-toc" data-toc>
     <summary>On this page</summary>
-    <ul>{toc.map((heading) => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ul>
+    <ul>{toc.map((heading) => <li><a href={`#${heading.slug}`} data-toc-link>{heading.text}</a></li>)}</ul>
   </details>}
   <article class="prose" aria-label={entry.data.title}><Content /></article>
   <div class="source-note">
@@ -41,3 +41,7 @@ const toc = headings.filter((heading) => heading.depth === 2 || heading.depth ==
     {next && <a href={`/docs/${next.id}/`}><span>Next <Icon name="arrow-right" /></span>{next.data.title}</a>}
   </nav>
 </ManualLayout>
+
+<script>
+  import "../../scripts/table-of-contents";
+</script>

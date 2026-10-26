@@ -38,7 +38,9 @@ guide bytes with the recorded source hashes and checks emitted source links.
 The regular local check and source projector perform no network reads.
 
 Run `pnpm check` and inspect desktop/phone screenshots after reader changes.
-No-JavaScript reading, full-text search, category intersection, keyboard focus,
-deep links, article links and overflow are browser-checked. Reading a guide does
+All six static chapter cards, no-JavaScript reading, keyboard focus, active
+section highlighting, deep links, article links and overflow are browser-checked.
+The contents highlight follows reading in both directions and handles direct
+heading links without writing history or taking focus. Reading a guide does
 not apply its configuration; installation and live application acceptance remain
 with the desktop source's documented procedures.
