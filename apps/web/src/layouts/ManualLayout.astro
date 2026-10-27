@@ -18,9 +18,9 @@ const toc = headings.filter((heading) => heading.depth === 2 || heading.depth ==
   <div class:list={["manual-layout", "shell", { "with-toc": toc.length > 0 }]}>
     <aside class="desktop-chapters"><ChapterNav current={current} /></aside>
     <main id="main-content" tabindex="-1" class="manual-main">
-      <details class="mobile-chapters">
-        <summary>Browse chapters <Icon name="plus" /></summary>
-        <ChapterNav current={current} />
+      <details class="mobile-chapters berry-disclosure">
+        <summary><span>Browse chapters</span><Icon name="chevron-down" class="disclosure-chevron" /></summary>
+        <div class="disclosure-panel"><ChapterNav current={current} /></div>
       </details>
       <slot />
     </main>

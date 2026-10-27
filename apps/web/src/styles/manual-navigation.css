@@ -12,3 +12,66 @@
   width: 2px;
   background: currentColor;
 }
+
+.berry-disclosure {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--background);
+}
+.berry-disclosure > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 44px;
+  padding: .7rem 1rem;
+  list-style: none;
+  color: var(--paper);
+  background: var(--surface);
+  border-radius: 2px;
+  font-size: .8rem;
+  transition: color 170ms ease-in-out, background-color 170ms ease-in-out;
+}
+.berry-disclosure > summary::-webkit-details-marker { display: none; }
+.berry-disclosure > summary:hover { color: var(--ochre); }
+.berry-disclosure > summary:focus-visible { outline-offset: -3px; }
+.berry-disclosure[open] { border-color: var(--olive); }
+.berry-disclosure[open] > summary { color: var(--ochre); border-radius: 2px 2px 0 0; box-shadow: 0 1px 0 var(--border); }
+.disclosure-chevron { flex-shrink: 0; color: var(--olive); transition: transform 170ms ease-in-out; }
+.berry-disclosure[open] > summary .disclosure-chevron { transform: rotate(180deg); }
+.disclosure-panel {
+  max-height: min(28rem, 60vh);
+  max-height: min(28rem, 60dvh);
+  min-width: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: .6rem;
+  overflow-wrap: anywhere;
+}
+.berry-disclosure[open] > .disclosure-panel { animation: disclosure-enter 170ms ease-in-out; }
+.disclosure-panel > :first-child { margin-top: 0; }
+.disclosure-panel > :last-child { margin-bottom: 0; }
+.disclosure-panel .chapter-nav a { min-height: 44px; }
+.mobile-toc .disclosure-panel ul { list-style: none; margin: 0; padding: 0; }
+.mobile-toc .disclosure-panel a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: .6rem .85rem;
+  text-decoration: none;
+  font-size: .8rem;
+}
+.mobile-toc .disclosure-panel a:hover { background: var(--surface); }
+.mobile-toc .disclosure-panel [aria-current="location"] { background: var(--surface); text-decoration: underline; }
+.mobile-toc .disclosure-panel [aria-current="location"]::before { left: .15rem; }
+.source-disclosure .disclosure-panel { padding: 1rem; }
+.source-disclosure p { margin-block: 0 .8rem; }
+@keyframes disclosure-enter {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .berry-disclosure > summary, .disclosure-chevron { transition: none; }
+  .berry-disclosure[open] > .disclosure-panel { animation: none; }
+}

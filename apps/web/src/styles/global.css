@@ -172,7 +172,6 @@ img { display: block; max-width: 100%; height: auto; }
 .source-note { border-top: 1px solid var(--border); margin-top: 3rem; padding-top: 1.4rem; font-size: .72rem; color: var(--muted); }
 .source-note > p { margin: 0 0 .8rem; }
 .source-note a { color: var(--ochre); }
-.source-note summary { width: fit-content; padding-block: .4rem; }
 .source-note code { font: inherit; overflow-wrap: anywhere; }
 .chapter-pagination { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2.25rem; }
 .chapter-pagination a { display: flex; flex-direction: column; align-items: start; text-decoration: none; border: 1px solid var(--border); padding: 1rem; font-size: .85rem; }
@@ -182,10 +181,7 @@ img { display: block; max-width: 100%; height: auto; }
 @media (max-width: 1200px) {
   .manual-layout.with-toc { grid-template-columns: 14rem minmax(0, 1fr); gap: 3rem; }
   .on-this-page { display: none; }
-  .mobile-toc { display: block; border: 1px solid var(--border); padding: .8rem 1rem; margin-bottom: 1.75rem; font-size: .8rem; }
-  .mobile-toc summary { color: var(--muted); }
-  .mobile-toc ul { padding-left: 1.25rem; }
-  .mobile-toc a { display: inline-block; padding-block: .4rem; color: var(--paper); }
+  .mobile-toc { display: block; margin-bottom: 1.75rem; }
   .topic { padding: 1.4rem 1.2rem; }
 }
 @media (max-width: 850px) {
@@ -205,11 +201,7 @@ img { display: block; max-width: 100%; height: auto; }
   .edition-note a { grid-column: 2; margin-left: 0; justify-self: start; }
   .manual-layout, .manual-layout.with-toc { display: block; padding-block: 1.5rem 3rem; }
   .desktop-chapters { display: none; }
-  .mobile-chapters { display: block; margin-bottom: 2.25rem; border: 1px solid var(--border); }
-  .mobile-chapters > summary { display: flex; justify-content: space-between; padding: .85rem 1rem; font-size: .8rem; color: var(--paper); }
-  .mobile-chapters[open] > summary { border-bottom: 1px solid var(--border); }
-  .mobile-chapters .chapter-nav { padding: .5rem; }
-  .mobile-chapters .chapter-nav a { min-height: 3rem; }
+  .mobile-chapters { display: block; margin-bottom: 2.25rem; }
   .chapter-list { grid-template-columns: minmax(0, 1fr); }
   .site-footer { flex-direction: column; font-size: .68rem; }
 }

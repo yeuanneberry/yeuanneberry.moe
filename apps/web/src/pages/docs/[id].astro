@@ -22,18 +22,20 @@ const toc = headings.filter((heading) => heading.depth === 2 || heading.depth ==
     <a href="/docs/">Documentation</a><span aria-hidden="true">/</span><span>{entry.data.group}</span>
   </nav>
   <p class="eyebrow">Chapter {String(entry.data.order).padStart(2, "0")} / {entry.data.group}</p>
-  {toc.length > 0 && <details class="mobile-toc" data-toc>
-    <summary>On this page</summary>
-    <ul>{toc.map((heading) => <li><a href={`#${heading.slug}`} data-toc-link>{heading.text}</a></li>)}</ul>
+  {toc.length > 0 && <details class="mobile-toc berry-disclosure" data-toc>
+    <summary><span>On this page</span><Icon name="chevron-down" class="disclosure-chevron" /></summary>
+    <div class="disclosure-panel"><ul>{toc.map((heading) => <li><a href={`#${heading.slug}`} data-toc-link>{heading.text}</a></li>)}</ul></div>
   </details>}
   <article class="prose" aria-label={entry.data.title}><Content /></article>
   <div class="source-note">
     <p>From {entry.data.sourcePublished ? <a href={entry.data.sourceUrl} target="_blank" rel="noopener noreferrer">{entry.data.repository} <Icon name="external" /><span class="sr-only"> (opens in a new tab)</span></a> : <span>{entry.data.repository}</span>} · reviewed {entry.data.reviewed}</p>
-    <details>
-      <summary>Source details</summary>
-      <p>Revision <code>{entry.data.sourceRevision}</code></p>
-      <p><code>{entry.data.sourcePath}</code></p>
-      <p>This is a reader copy. Propose edits in the maintained source, then refresh the reviewed edition.</p>
+    <details class="berry-disclosure source-disclosure">
+      <summary><span>Source details</span><Icon name="chevron-down" class="disclosure-chevron" /></summary>
+      <div class="disclosure-panel" role="region" aria-label="Source revision details" tabindex="0">
+        <p>Revision <code>{entry.data.sourceRevision}</code></p>
+        <p><code>{entry.data.sourcePath}</code></p>
+        <p>This is a reader copy. Propose edits in the maintained source, then refresh the reviewed edition.</p>
+      </div>
     </details>
   </div>
   <nav class="chapter-pagination" aria-label="Adjacent chapters">

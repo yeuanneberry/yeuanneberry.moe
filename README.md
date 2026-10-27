@@ -10,6 +10,9 @@ there are no React islands or search/filter controls. The Astro + React stack
 remains configured. A small vanilla script highlights the section being read in
 both contents lists, without changing URL history or moving focus. Heading links
 remain native anchors and work without JavaScript.
+Chapter navigation, page contents and source details use shared Berry disclosure
+styling with Lucide chevrons, 44px controls, bounded panels and reduced-motion
+support. They keep native details/summary keyboard and no-JavaScript behavior.
 Mobile navigation uses a full-screen native dialog with an early inline controller;
 it works before animation scripts download. Without JavaScript the regular links
 remain visible. Open/close buttons share the same size and header alignment; their
