@@ -17,7 +17,8 @@ social metadata use only "Yeuanne Berry". External links open a new tab with
 noopener/noreferrer and an accessible hint; internal navigation stays in place.
 The original portrait supplies high-density responsive WebP display images and
 PNG favicon/touch icons. Fonts and
-preview images are served locally. There is no login, database, telemetry or
+preview images are served locally. A build-time social card supplies large image
+previews when links are shared. There is no login, database, telemetry or
 visitor-side GitHub request.
 
 Selected Lucide icons render as static Astro SVGs. Motion's vanilla JavaScript
@@ -37,13 +38,18 @@ pnpm dev
 
 The local site listens on http://127.0.0.1:4321. No domain or deployment is
 configured. The intended domain is yeuanneberry.moe; purchase and DNS are deferred.
+See [site build settings](docs/SITE-BUILDS.md) for explicit production URLs and
+indexing. Local/preview builds remain unindexed by default; production fixtures
+are checked locally without publishing them.
 
 ```sh
 pnpm check
 ```
 
 This checks reader integrity, types, the static production build, and Chromium
-at desktop/phone sizes. Install the matching browser once with
+at desktop/phone sizes, plus separate preview/production metadata builds and
+initial asset budgets. [Performance notes](docs/PERFORMANCE.md) distinguish local
+loading observations from real visitor metrics. Install the matching browser once with
 `pnpm exec playwright install chromium` if needed. Test screenshots/traces under
 test-results are ignored. The test preview uses Astro's `--ignore-lock` mode so
 Playwright owns its foreground lifetime in agent environments.

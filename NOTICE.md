@@ -33,9 +33,12 @@ data are included.
 
 ## Font and dependencies
 
-JetBrains Mono is Copyright 2020 The JetBrains Mono Project Authors. The unchanged
-font is served locally; its SIL Open Font License 1.1 is retained at
+JetBrains Mono is Copyright 2020 The JetBrains Mono Project Authors. The local
+WOFF2 is a format conversion of the retained original TTF, without subsetting or
+glyph changes (woff2 1.0.2). Its SIL Open Font License 1.1 is retained at
 `apps/web/public/fonts/OFL.txt`. Other dependencies retain their own licenses.
+Regenerate with `woff2_compress apps/web/public/fonts/JetBrainsMono-Regular.ttf`.
+The generated social card also retains the profile artwork and font exclusions.
 No wallpaper or historical desktop artwork is part of this release tree.
 
 Lucide icons and Motion retain their upstream licenses, reproduced in

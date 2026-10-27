@@ -7,15 +7,16 @@
   ],
   "type": "module",
   "scripts": {
-    "dev": "pnpm --filter web dev --host 127.0.0.1",
-    "build": "pnpm --filter web build",
+    "dev": "node scripts/generate-social-card.mjs && pnpm --filter web dev --host 127.0.0.1",
+    "build": "node scripts/generate-social-card.mjs && pnpm --filter web build",
     "check-types": "pnpm --filter web check-types",
     "dev:web": "pnpm --filter web dev",
     "preview": "pnpm --filter web preview --host 127.0.0.1",
     "test": "playwright test",
     "check-reader": "python3 -B scripts/sync-reader.py --verify",
     "check-ascii": "node scripts/generate-ascii-portrait.mjs --check",
-    "check": "pnpm check-reader && pnpm check-ascii && pnpm check-types && pnpm build && pnpm test"
+    "check-site-builds": "node scripts/check-site-builds.mjs",
+    "check": "pnpm check-reader && pnpm check-ascii && pnpm check-types && pnpm build && pnpm check-site-builds && pnpm test"
   },
   "devDependencies": {
     "@playwright/test": "1.64.1",

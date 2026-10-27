@@ -5,8 +5,13 @@ import Icon from "../components/Icon.astro";
 import { getImage } from "astro:assets";
 import portrait from "../assets/profile.png";
 import { profile } from "../data/profile";
+import { site } from "../../site.config.mjs";
 
+interface Props { noindex?: boolean; }
+const { noindex = false } = Astro.props;
 const title = profile.name;
+const canonical = site.url && !noindex ? new URL(Astro.url.pathname, site.url).href : undefined;
+const socialImage = new URL("/social-card.png", site.url ?? Astro.url.origin).href;
 const favicon = await getImage({ src: portrait, width: 32, height: 32, format: "png" });
 const touchIcon = await getImage({ src: portrait, width: 180, height: 180, format: "png" });
 ---
@@ -16,12 +21,24 @@ const touchIcon = await getImage({ src: portrait, width: 180, height: 180, forma
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="description" content={profile.name} />
+    <meta name="robots" content={site.indexable && !noindex ? "index, follow" : "noindex, nofollow"} />
+    {canonical && <link rel="canonical" href={canonical} />}
     <link rel="icon" type="image/png" sizes="32x32" href={favicon.src} />
     <link rel="apple-touch-icon" sizes="180x180" href={touchIcon.src} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={profile.name} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={profile.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={profile.name} />
+    <meta name="twitter:description" content={profile.name} />
+    <meta name="twitter:image" content={socialImage} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
