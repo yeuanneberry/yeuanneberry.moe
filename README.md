@@ -67,6 +67,15 @@ to rendered guide links. Keep this presentation rule out of generated chapters.
 About uses a static ASCII derivative of the supplied portrait, in 80x48 desktop
 and 48x29 phone grids. A reviewed SVG foreground mask selects the character;
 contrast uses those pixels and the surrounding background becomes literal spaces.
+Positive tonal mapping keeps the hair dark and face light; restrained detail
+enhancement before downsampling preserves the glasses, eyes and mouth. The
+selected rendering is compared with two alternatives using the actual font:
+
+```sh
+node scripts/preview-ascii-portrait.mjs
+```
+
+This writes desktop/phone comparisons to ignored `test-results/ascii-comparison`.
 About's Work and Berry sections sit side by side on desktop and stack on phones.
 Home and About show the owner's pronunciation guide from
 `apps/web/src/data/profile.ts`.
