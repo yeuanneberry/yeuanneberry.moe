@@ -33,6 +33,8 @@ public file is ignored. Preserve its artwork and font notices. The original
 profile image and all metadata titles/descriptions retain the owner's choices.
 
 `pnpm check-site-builds` builds isolated local, preview and synthetic production
-fixtures under ignored `test-results/site-builds`. It checks canonicals, social
+fixtures under ignored `.cache/site-builds`. It checks canonicals, social
 URLs, robots rules, sitemap contents, 404 indexing and invalid settings without
-connecting to the example origin. It never deploys those fixtures.
+connecting to the example origin. A fourth synthetic analytics-enabled fixture
+supports the local Cloudflare check. These fixtures never deploy. See
+[launch preparation](LAUNCH.md) for security and optional analytics maintenance.

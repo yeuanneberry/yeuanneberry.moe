@@ -15,6 +15,11 @@ reader. Read README.md and NOTICE.md before editing.
 - Keep metadata exactly "Yeuanne Berry" and copy direct. External links open a
   new tab with noopener/noreferrer and an accessible hint; internal routes stay put.
 - pnpm is the package manager. Keep exact direct versions and pnpm-lock.yaml.
+- Preserve default noindex and disabled analytics. SITE_URL/SITE_INDEXABLE and
+  optional analytics are explicit build settings, not evidence of deployment.
+  Read docs/LAUNCH.md before changing CSP, code styles or Cloudflare configuration.
+  Keep early-script hashes and the narrow Shiki style hashes valid; never add
+  broad unsafe-inline allowances. Local Cloudflare checks use stub analytics.
 - Reusable configuration and guide content belong to berry-desktop.
   Reader articles are generated from the reviewed allowlist in
   docs/reader-sources.json. Follow docs/READER-MAINTENANCE.md; author content

@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import portrait from "../assets/profile.png";
 import Icon from "./Icon.astro";
 import navigationScript from "../scripts/navigation.js?raw";
+import noScriptStyles from "../styles/no-script-navigation.css?url";
 const path = Astro.url.pathname;
 const links = [
   ["Home", "/"], ["Work", "/work/"], ["Code", "/code/"],
@@ -43,11 +44,5 @@ const current = (href: string) => path === href ? "page" : href !== "/" && path.
 </header>
 <script is:inline set:html={navigationScript} />
 <noscript>
-  <style is:inline>
-    @media (max-width: 850px) {
-      .site-header .mobile-menu-toggle { display: none; }
-      .site-header .header-inner { flex-wrap: wrap; padding-block: .8rem; }
-      .site-header .desktop-nav { display: flex; width: 100%; justify-content: space-between; gap: .5rem; }
-    }
-  </style>
+  <link rel="stylesheet" href={noScriptStyles} />
 </noscript>

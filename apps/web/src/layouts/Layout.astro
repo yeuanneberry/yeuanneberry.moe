@@ -5,7 +5,7 @@ import Icon from "../components/Icon.astro";
 import { getImage } from "astro:assets";
 import portrait from "../assets/profile.png";
 import { profile } from "../data/profile";
-import { site } from "../../site.config.mjs";
+import { site, analyticsBootstrap } from "../../site.config.mjs";
 
 interface Props { noindex?: boolean; }
 const { noindex = false } = Astro.props;
@@ -49,11 +49,13 @@ const touchIcon = await getImage({ src: portrait, width: 180, height: 180, forma
     <footer class="site-footer shell">
       <p>Yeuanne Berry</p>
       <nav aria-label="Elsewhere">
+        <a href="/privacy/">Privacy</a>
         <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub <Icon name="external" size={14} /><span class="sr-only"> (opens in a new tab)</span></a>
         <a href={profile.studio} target="_blank" rel="noopener noreferrer">Yappers <Icon name="external" size={14} /><span class="sr-only"> (opens in a new tab)</span></a>
         <a href="/docs/">Berry docs <Icon name="arrow-right" size={14} /></a>
       </nav>
     </footer>
+    {analyticsBootstrap && <script is:inline set:html={analyticsBootstrap} />}
   </body>
 </html>
 

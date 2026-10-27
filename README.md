@@ -18,8 +18,9 @@ noopener/noreferrer and an accessible hint; internal navigation stays in place.
 The original portrait supplies high-density responsive WebP display images and
 PNG favicon/touch icons. Fonts and
 preview images are served locally. A build-time social card supplies large image
-previews when links are shared. There is no login, database, telemetry or
-visitor-side GitHub request.
+previews when links are shared. There is no login, database or visitor-side
+GitHub request. Optional Cloudflare Web Analytics is disabled by default and
+restricted to the exact configured production origin when explicitly enabled.
 
 Selected Lucide icons render as static Astro SVGs. Motion's vanilla JavaScript
 mini entry adds 220ms menu entrances and 160ms exits; CSS uses 140ms interaction
@@ -38,6 +39,9 @@ pnpm dev
 
 The local site listens on http://127.0.0.1:4321. No domain or deployment is
 configured. The intended domain is yeuanneberry.moe; purchase and DNS are deferred.
+Workers Static Assets configuration and local-only proofs are prepared; no
+hosting account, deployment or live analytics was activated. See
+[launch preparation](docs/LAUNCH.md) for CSP, local headers and analytics settings.
 See [site build settings](docs/SITE-BUILDS.md) for explicit production URLs and
 indexing. Local/preview builds remain unindexed by default; production fixtures
 are checked locally without publishing them.
@@ -48,7 +52,8 @@ pnpm check
 
 This checks reader integrity, types, the static production build, and Chromium
 at desktop/phone sizes, plus separate preview/production metadata builds and
-initial asset budgets. [Performance notes](docs/PERFORMANCE.md) distinguish local
+initial asset budgets, plus local Cloudflare headers/routing and a stubbed
+analytics fixture. [Performance notes](docs/PERFORMANCE.md) distinguish local
 loading observations from real visitor metrics. Install the matching browser once with
 `pnpm exec playwright install chromium` if needed. Test screenshots/traces under
 test-results are ignored. The test preview uses Astro's `--ignore-lock` mode so
@@ -113,3 +118,8 @@ integration 7.0.0 / Vite React plugin 6.1.1 / oxc-transform-react 0.145.0 peer
 combination unless a deliberate update resolves all peer requirements. Keep
 `pnpm peers check` clean. No generator or global tooling update is needed to edit
 this site.
+
+Wrangler is a development-only tool for local static-asset proofs. Its pinned
+esbuild/workerd installers are the two approved package builds. Exact release-age
+exceptions in `pnpm-workspace.yaml` cover Wrangler and its bundled Miniflare
+version; review those exceptions when deliberately upgrading the local tool.

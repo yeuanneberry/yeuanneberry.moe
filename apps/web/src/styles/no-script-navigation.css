@@ -1,0 +1,5 @@
+@media (max-width: 850px) {
+  .site-header .mobile-menu-toggle { display: none; }
+  .site-header .header-inner { flex-wrap: wrap; padding-block: .8rem; }
+  .site-header .desktop-nav { display: flex; width: 100%; justify-content: space-between; gap: .5rem; }
+}

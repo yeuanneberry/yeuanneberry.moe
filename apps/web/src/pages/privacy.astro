@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { analyticsEnabled } from "../../site.config.mjs";
+import Icon from "../components/Icon.astro";
+---
+
+<Layout>
+  <main id="main-content" class="shell privacy-page" tabindex="-1">
+    <h1>Privacy</h1>
+    {analyticsEnabled ? <>
+      <p>This site uses Cloudflare Web Analytics to understand page visits and loading performance.</p>
+      <p>The analytics beacon does not use cookies or local storage. It reports information such as the page visited, referring site, browser, device, country and loading measurements. It is configured to run only on this site's production address.</p>
+      <p>There are no advertising trackers or contact forms. Hosting providers may process request information when delivering pages.</p>
+      <a href="https://developers.cloudflare.com/speed/observatory/rum-beacon/" target="_blank" rel="noopener noreferrer">Cloudflare's data collection details <Icon name="external" /><span class="sr-only"> (opens in a new tab)</span></a>
+    </> : <>
+      <p>This site currently uses no visitor analytics or advertising trackers.</p>
+      <p>There are no contact forms. Hosting providers may process request information when delivering pages.</p>
+    </>}
+    <p>External links open other websites, which have their own privacy practices.</p>
+  </main>
+</Layout>
+
+<style>
+  .privacy-page { padding-block: 4rem 5rem; min-height: 65vh; }
+  p { max-width: 55rem; color: var(--muted); line-height: 1.9; margin-bottom: 1.5rem; }
+  a { color: var(--ochre); }
+</style>

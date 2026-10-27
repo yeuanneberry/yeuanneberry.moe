@@ -16,14 +16,17 @@
     "check-reader": "python3 -B scripts/sync-reader.py --verify",
     "check-ascii": "node scripts/generate-ascii-portrait.mjs --check",
     "check-site-builds": "node scripts/check-site-builds.mjs",
-    "check": "pnpm check-reader && pnpm check-ascii && pnpm check-types && pnpm build && pnpm check-site-builds && pnpm test"
+    "check-cloudflare": "node scripts/check-cloudflare-preview.mjs",
+    "preview:cloudflare": "WRANGLER_SEND_METRICS=false wrangler dev --local --ip 127.0.0.1 --port 4323",
+    "check": "pnpm check-reader && pnpm check-ascii && pnpm check-types && pnpm build && pnpm check-site-builds && pnpm test && pnpm check-cloudflare"
   },
   "devDependencies": {
     "@playwright/test": "1.64.1",
     "@types/node": "26.5.0",
     "@yeuanneberry/config": "workspace:*",
     "sharp": "0.35.5",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "wrangler": "4.153.0"
   },
   "engines": {
     "node": ">=22.23.4"
