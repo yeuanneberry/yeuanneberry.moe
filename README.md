@@ -12,7 +12,8 @@ both contents lists, without changing URL history or moving focus. Heading links
 remain native anchors and work without JavaScript.
 Mobile navigation uses a full-screen native dialog with an early inline controller;
 it works before animation scripts download. Without JavaScript the regular links
-remain visible. Open/close buttons share the same size and header alignment. Browser and
+remain visible. Open/close buttons share the same size and header alignment; their
+header divider spans the same full width in both states. Browser and
 social metadata use only "Yeuanne Berry". External links open a new tab with
 noopener/noreferrer and an accessible hint; internal navigation stays in place.
 The original portrait supplies high-density responsive WebP display images and
